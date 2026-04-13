@@ -1,0 +1,143 @@
+/* ── Nav ── */
+.nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.nav__logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.02em;
+  flex: 1 1 0;
+}
+
+.nav__links {
+  list-style: none;
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.nav__link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+
+.nav__link:hover {
+  color: #fff;
+}
+
+.nav__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 0;
+  justify-content: flex-end;
+}
+
+.nav__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #4ade80;
+  flex-shrink: 0;
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+.nav__status-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.38);
+  letter-spacing: 0.03em;
+}
+
+/* ── Bottom bar ── */
+.bottom-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 52px;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.bottom-bar__left {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.03em;
+  flex: 1 1 0;
+}
+
+.bottom-bar__project {
+  color: rgba(124, 158, 247, 0.75);
+}
+
+.bottom-bar__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.bottom-bar__scroll-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.22);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bottom-bar__scroll-arrow {
+  font-size: 7px;
+  color: rgba(255, 255, 255, 0.18);
+  display: inline-block;
+  transform: rotate(45deg);
+  line-height: 1;
+}
+
+.bottom-bar__right {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.15);
+  letter-spacing: 0.05em;
+  flex: 1 1 0;
+  text-align: right;
+}
+
+/* ── Layout shell ── */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #0b0c0e;
+}
+
+.layout__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

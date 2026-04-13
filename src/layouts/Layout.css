@@ -59,6 +59,8 @@
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 
+/* pulse-dot keyframe referenced from Hero.css which is always loaded */
+
 .nav__status-text {
   font-family: 'DM Mono', monospace;
   font-size: 12px;
@@ -114,8 +116,8 @@
   font-size: 7px;
   color: rgba(255, 255, 255, 0.18);
   display: inline-block;
-  transform: rotate(45deg);
-  line-height: 1;
+  /* bob animation */
+  animation: bob 2s ease-in-out infinite;
 }
 
 .bottom-bar__right {
@@ -140,4 +142,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* ── bob keyframe (for scroll arrow) ── */
+@keyframes bob {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50%       { transform: rotate(45deg) translateY(3px); }
 }

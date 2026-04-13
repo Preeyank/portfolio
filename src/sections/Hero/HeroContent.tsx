@@ -4,6 +4,7 @@ const STACK = ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'GraphQL', 'Redis
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&'
 const NAME_UPRIGHT = 'Pri'
 const NAME_ITALIC = 'yank'
+const EMAIL = 'priyank@example.com'
 
 // ── Scramble hook ──────────────────────────────────────────────
 function useScramble(target: string, delay: number = 0) {
@@ -14,7 +15,7 @@ function useScramble(target: string, delay: number = 0) {
     let timeout: ReturnType<typeof setTimeout>
     timeout = setTimeout(() => {
       let iteration = 0
-      const total = target.length * 6 // frames per letter
+      const total = target.length * 6
 
       const tick = () => {
         setDisplay(
@@ -60,7 +61,6 @@ function useTerminalPills(pills: string[], startDelay: number = 400) {
     return () => clearTimeout(t)
   }, [revealed, pills.length, startDelay])
 
-  // blink cursor until done
   useEffect(() => {
     if (done) { setCursorVisible(false); return }
     const t = setInterval(() => setCursorVisible((v) => !v), 530)
@@ -70,10 +70,34 @@ function useTerminalPills(pills: string[], startDelay: number = 400) {
   return { revealed, cursorVisible, done }
 }
 
-// ── Line numbers ───────────────────────────────────────────────
-const LINE_NUMBERS = Array.from({ length: 18 }, (_, i) =>
-  String(i + 1).padStart(2, '0')
-)
+// ── Copy email pill hook ───────────────────────────────────────
+function useCopyEmail() {
+  const [copied, setCopied] = useState(false)
+
+  const copy = () => {
+    navigator.clipboard.writeText(EMAIL).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    })
+  }
+
+  return { copied, copy }
+}
+
+// ── Line numbers (with one slot reserved for elapsed timer) ────
+const LINE_COUNT = 18
+const TIMER_SLOT = 9 // which line index shows the timer
+
+function useElapsed() {
+  const [s, setS] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setS((n) => n + 1), 1000)
+    return () => clearInterval(t)
+  }, [])
+  const mm = String(Math.floor(s / 60)).padStart(2, '0')
+  const ss = String(s % 60).padStart(2, '0')
+  return `${mm}:${ss}`
+}
 
 interface HeroContentProps {
   visible: boolean
@@ -83,21 +107,31 @@ export default function HeroContent({ visible }: HeroContentProps) {
   const uprightText = useScramble(NAME_UPRIGHT, 300)
   const italicText  = useScramble(NAME_ITALIC,  600)
   const { revealed, cursorVisible, done } = useTerminalPills(STACK, 900)
+  const { copied, copy } = useCopyEmail()
+  const elapsed = useElapsed()
 
   return (
     <main className="hero__main">
-      {/* Decorative line numbers */}
+      {/* Decorative line numbers with hidden elapsed timer */}
       <div className="hero__gutter" aria-hidden="true">
-        {LINE_NUMBERS.map((n) => (
-          <span key={n} className="hero__gutter-line">{n}</span>
+        {Array.from({ length: LINE_COUNT }, (_, i) => (
+          <span key={i} className="hero__gutter-line">
+            {i === TIMER_SLOT ? elapsed : String(i + 1).padStart(2, '0')}
+          </span>
         ))}
       </div>
 
-      {/* Eyebrow pill */}
+      {/* Eyebrow pill — click to copy email */}
       <div className="hero__fade-up" style={{ animationDelay: '0s', opacity: visible ? 1 : 0 }}>
         <div className="hero__eyebrow">
           <span className="hero__eyebrow-line" />
-          <span className="hero__eyebrow-text">Full Stack Developer</span>
+          <button
+            className={`hero__eyebrow-text hero__eyebrow-btn ${copied ? 'hero__eyebrow-btn--copied' : ''}`}
+            onClick={copy}
+            title={`Copy ${EMAIL}`}
+          >
+            {copied ? 'copied ✓' : 'Full Stack Developer'}
+          </button>
           <span className="hero__eyebrow-line" />
         </div>
       </div>
@@ -114,11 +148,17 @@ export default function HeroContent({ visible }: HeroContentProps) {
         </h1>
       </div>
 
-      {/* Tagline */}
+      {/* Tagline — redacted words revealed on hover */}
       <div className="hero__fade-up" style={{ animationDelay: '0.2s', opacity: visible ? 1 : 0 }}>
         <div className="hero__tagline-row">
           <span className="hero__tagline-dash">—</span>
-          <p className="hero__tagline">Building for the web &amp; beyond</p>
+          <p className="hero__tagline">
+            <span className="hero__redact">Building</span>
+            {' '}for the{' '}
+            <span className="hero__redact">web</span>
+            {' '}&amp;{' '}
+            <span className="hero__redact">beyond</span>
+          </p>
           <span className="hero__tagline-dash">—</span>
         </div>
       </div>

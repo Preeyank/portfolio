@@ -60,6 +60,45 @@
   pointer-events: none;
 }
 
+/* ── Radar sweep lines ── */
+.hero__radar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.hero__radar-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 158, 247, 0.0) 20%,
+    rgba(124, 158, 247, 0.18) 50%,
+    rgba(124, 158, 247, 0.0) 80%,
+    transparent 100%
+  );
+}
+
+.hero__radar-line--1 {
+  animation: radar-sweep 9s cubic-bezier(0.4, 0, 0.6, 1) 2 forwards;
+}
+
+.hero__radar-line--2 {
+  animation: radar-sweep 9s cubic-bezier(0.4, 0, 0.6, 1) 4.5s 2 forwards;
+}
+
+@keyframes radar-sweep {
+  0%   { top: -1px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
 /* ── CRT scan line ── */
 .hero__scanline {
   position: absolute;
@@ -91,29 +130,6 @@
 .hero__fade-up {
   animation: fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
   opacity: 0;
-}
-
-/* ── Decorative line numbers (gutter) ── */
-.hero__gutter {
-  position: absolute;
-  left: 28px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  pointer-events: none;
-  user-select: none;
-  z-index: 1;
-}
-
-.hero__gutter-line {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.055);
-  letter-spacing: 0.05em;
-  line-height: 1;
 }
 
 /* ── Eyebrow pill ── */
@@ -259,7 +275,8 @@
   color: rgba(255, 255, 255, 0.4);
   cursor: default;
   letter-spacing: 0.03em;
-  transition: color 0.22s, border-color 0.22s, opacity 0.2s, transform 0.2s;
+  transition: color 0.3s, border-color 0.3s, background-color 0.3s, opacity 0.2s, transform 0.2s;
+  background-color: transparent;
 }
 
 .hero__pill--visible {
@@ -274,8 +291,25 @@
 }
 
 .hero__pill:hover {
-  color: rgba(124, 158, 247, 0.9);
-  border-color: rgba(124, 158, 247, 0.5);
+  background-color: rgba(var(--pill-color), 0.1);
+  border-color: rgba(var(--pill-color), 0.4);
+  color: rgba(var(--pill-color), 1);
+}
+
+.hero__pill-icon {
+  display: inline-block;
+  vertical-align: middle;
+  height: 13px;
+  width: 0;
+  opacity: 0;
+  margin-right: 0;
+  transition: opacity 0.25s, width 0.25s, margin-right 0.25s;
+}
+
+.hero__pill:hover .hero__pill-icon {
+  opacity: 1;
+  width: 13px;
+  margin-right: 6px;
 }
 
 /* Terminal blinking cursor */

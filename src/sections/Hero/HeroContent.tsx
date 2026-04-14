@@ -1,6 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
+import pythonIcon from '../../assets/python.svg'
+import awsIcon from '../../assets/aws.svg'
+import dynamodbIcon from '../../assets/dynamodb.svg'
 
-const STACK = ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'GraphQL', 'Redis', 'Docker', 'AWS']
+const STACK: { label: string; icon: string; color: string }[] = [
+  { label: 'Python',     icon: pythonIcon,                               color: '55,118,171'  },
+  { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript', color: '49,120,198'  },
+  { label: 'React',      icon: 'https://cdn.simpleicons.org/react',      color: '97,218,251'  },
+  { label: 'Next.js',    icon: 'https://cdn.simpleicons.org/nextdotjs',  color: '255,255,255' },
+  { label: 'FastAPI',    icon: 'https://cdn.simpleicons.org/fastapi',    color: '0,150,136'   },
+  { label: 'Node.js',    icon: 'https://cdn.simpleicons.org/nodedotjs',  color: '95,160,78'   },
+  { label: 'AWS',        icon: awsIcon,                                  color: '255,153,0'   },
+  { label: 'DynamoDB',   icon: dynamodbIcon,                              color: '64,83,214'   },
+  { label: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql', color: '65,105,225'  },
+  { label: 'Docker',     icon: 'https://cdn.simpleicons.org/docker',     color: '36,150,237'  },
+  { label: 'Go',         icon: 'https://cdn.simpleicons.org/go',         color: '0,172,215'   },
+]
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&'
 const NAME_UPRIGHT = 'Pri'
 const NAME_ITALIC = 'yank'
@@ -84,20 +99,6 @@ function useCopyEmail() {
   return { copied, copy }
 }
 
-// ── Line numbers (with one slot reserved for elapsed timer) ────
-const LINE_COUNT = 18
-const TIMER_SLOT = 9 // which line index shows the timer
-
-function useElapsed() {
-  const [s, setS] = useState(0)
-  useEffect(() => {
-    const t = setInterval(() => setS((n) => n + 1), 1000)
-    return () => clearInterval(t)
-  }, [])
-  const mm = String(Math.floor(s / 60)).padStart(2, '0')
-  const ss = String(s % 60).padStart(2, '0')
-  return `${mm}:${ss}`
-}
 
 interface HeroContentProps {
   visible: boolean
@@ -106,21 +107,11 @@ interface HeroContentProps {
 export default function HeroContent({ visible }: HeroContentProps) {
   const uprightText = useScramble(NAME_UPRIGHT, 300)
   const italicText  = useScramble(NAME_ITALIC,  600)
-  const { revealed, cursorVisible, done } = useTerminalPills(STACK, 900)
+  const { revealed, cursorVisible, done } = useTerminalPills(STACK.map(s => s.label), 900)
   const { copied, copy } = useCopyEmail()
-  const elapsed = useElapsed()
 
   return (
     <main className="hero__main">
-      {/* Decorative line numbers with hidden elapsed timer */}
-      <div className="hero__gutter" aria-hidden="true">
-        {Array.from({ length: LINE_COUNT }, (_, i) => (
-          <span key={i} className="hero__gutter-line">
-            {i === TIMER_SLOT ? elapsed : String(i + 1).padStart(2, '0')}
-          </span>
-        ))}
-      </div>
-
       {/* Eyebrow pill — click to copy email */}
       <div className="hero__fade-up" style={{ animationDelay: '0s', opacity: visible ? 1 : 0 }}>
         <div className="hero__eyebrow">
@@ -166,12 +157,14 @@ export default function HeroContent({ visible }: HeroContentProps) {
       {/* Stack pills — terminal print */}
       <div className="hero__fade-up" style={{ animationDelay: '0.3s', opacity: visible ? 1 : 0 }}>
         <div className="hero__stack">
-          {STACK.map((tech, i) => (
+          {STACK.map(({ label, icon, color }, i) => (
             <span
-              key={tech}
+              key={label}
               className={`hero__pill ${i < revealed ? 'hero__pill--visible' : 'hero__pill--hidden'}`}
+              style={{ '--pill-color': color } as React.CSSProperties}
             >
-              {tech}
+              <img src={icon} alt="" className="hero__pill-icon" aria-hidden="true" />
+              {label}
             </span>
           ))}
           {!done && (

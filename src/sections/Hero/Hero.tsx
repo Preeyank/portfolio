@@ -12,6 +12,12 @@ export default function Hero({ visible }: HeroProps) {
       <div className="hero__grid-fade" />
       <div className="hero__glow" />
 
+      {/* Radar sweep lines */}
+      <div className="hero__radar" aria-hidden="true">
+        <div className="hero__radar-line hero__radar-line--1" />
+        <div className="hero__radar-line hero__radar-line--2" />
+      </div>
+
       {/* CRT scan line — fires once on load */}
       <div className="hero__scanline" aria-hidden="true" />
 

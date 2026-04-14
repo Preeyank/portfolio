@@ -1,4 +1,5 @@
 import { useInView } from '../../hooks/useInView'
+import ScrambleText from '../../components/ScrambleText'
 import './About.css'
 
 const FACTS = [
@@ -16,7 +17,7 @@ export default function About() {
       <div className="about__inner">
         <div className="about__header">
           <span className="about__label">About</span>
-          <h2 className="about__title">The person behind the code</h2>
+          <h2 className="about__title"><ScrambleText text="The person behind the code" /></h2>
         </div>
 
         <div className="about__body">

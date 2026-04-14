@@ -1,4 +1,5 @@
 import { useInView } from '../../hooks/useInView'
+import ScrambleText from '../../components/ScrambleText'
 import './Experience.css'
 
 const JOBS = [
@@ -55,7 +56,7 @@ export default function Experience() {
       <div className="experience__inner">
         <div className="experience__header">
           <span className="experience__label">Experience</span>
-          <h2 className="experience__title">Where I've built</h2>
+          <h2 className="experience__title"><ScrambleText text="Where I've built" /></h2>
         </div>
 
         <div className="experience__list">
@@ -80,13 +81,13 @@ function ExperienceCard({ job, index, parentInView }: { job: typeof JOBS[0]; ind
       <div className="exp-card__left">
         <span className="exp-card__period">{job.period}</span>
         <span className="exp-card__location">{job.location}</span>
-        {job.badge && <span className="exp-card__badge">{job.badge}</span>}
       </div>
 
       <div className="exp-card__right">
         <div className="exp-card__top">
           <h3 className="exp-card__company">{job.company}</h3>
           <span className="exp-card__role">{job.role}</span>
+          {job.badge && <span className="exp-card__badge">{job.badge}</span>}
         </div>
 
         <ul className="exp-card__bullets">

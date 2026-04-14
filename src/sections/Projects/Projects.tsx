@@ -1,4 +1,5 @@
 import { useInView } from '../../hooks/useInView'
+import ScrambleText from '../../components/ScrambleText'
 import './Projects.css'
 
 const PROJECTS = [
@@ -20,7 +21,7 @@ export default function Projects() {
       <div className="projects__inner">
         <div className="projects__header">
           <span className="projects__label">Projects</span>
-          <h2 className="projects__title">What I'm building</h2>
+          <h2 className="projects__title"><ScrambleText text="What I'm building" /></h2>
         </div>
 
         <div className="projects__grid">

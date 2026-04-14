@@ -1,4 +1,5 @@
 import { useInView } from '../../hooks/useInView'
+import ScrambleText from '../../components/ScrambleText'
 import './Contact.css'
 
 const LINKS = [
@@ -15,7 +16,7 @@ export default function Contact() {
       <div className="contact__inner">
         <div className="contact__header">
           <span className="contact__label">Contact</span>
-          <h2 className="contact__title">Let's work together</h2>
+          <h2 className="contact__title"><ScrambleText text="Let's work together" /></h2>
           <p className="contact__subtitle">
             Open to full-time roles, contract work, and interesting conversations.
           </p>

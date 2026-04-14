@@ -106,15 +106,15 @@ interface HeroContentProps {
 }
 
 export default function HeroContent({ visible }: HeroContentProps) {
-  const uprightText = useScramble(NAME_UPRIGHT, 300)
-  const italicText  = useScramble(NAME_ITALIC,  600)
-  const { revealed, cursorVisible, done } = useTerminalPills(STACK.map(s => s.label), 900)
+  const uprightText = useScramble(NAME_UPRIGHT, 700)
+  const italicText  = useScramble(NAME_ITALIC,  1000)
+  const { revealed, cursorVisible, done } = useTerminalPills(STACK.map(s => s.label), 1500)
   const { copied, copy } = useCopyEmail()
 
   return (
     <main className="hero__main">
       {/* Eyebrow pill — click to copy email */}
-      <div className="hero__fade-up" style={{ animationDelay: '0s', opacity: visible ? 1 : 0 }}>
+      <div className="hero__fade-up" style={{ animationDelay: '0.4s', opacity: visible ? 1 : 0 }}>
         <div className="hero__eyebrow">
           <span className="hero__eyebrow-line" />
           <button
@@ -129,7 +129,7 @@ export default function HeroContent({ visible }: HeroContentProps) {
       </div>
 
       {/* Name — scramble reveal + hover split */}
-      <div className="hero__fade-up" style={{ animationDelay: '0.1s', opacity: visible ? 1 : 0 }}>
+      <div className="hero__fade-up" style={{ animationDelay: '0.6s', opacity: visible ? 1 : 0 }}>
         <h1 className="hero__name hero__name--splittable">
           <span className="hero__name--upright hero__name--split-left">
             {uprightText || NAME_UPRIGHT}
@@ -141,7 +141,7 @@ export default function HeroContent({ visible }: HeroContentProps) {
       </div>
 
       {/* Tagline — redacted words revealed on hover */}
-      <div className="hero__fade-up" style={{ animationDelay: '0.2s', opacity: visible ? 1 : 0 }}>
+      <div className="hero__fade-up" style={{ animationDelay: '0.85s', opacity: visible ? 1 : 0 }}>
         <div className="hero__tagline-row">
           <span className="hero__tagline-dash">—</span>
           <p className="hero__tagline">
@@ -156,7 +156,7 @@ export default function HeroContent({ visible }: HeroContentProps) {
       </div>
 
       {/* Stack pills — terminal print */}
-      <div className="hero__fade-up" style={{ animationDelay: '0.3s', opacity: visible ? 1 : 0 }}>
+      <div className="hero__fade-up" style={{ animationDelay: '1.05s', opacity: visible ? 1 : 0 }}>
         <div className="hero__stack">
           {STACK.map(({ label, icon, color }, i) => (
             <span
@@ -177,7 +177,7 @@ export default function HeroContent({ visible }: HeroContentProps) {
       </div>
 
       {/* CTAs */}
-      <div className="hero__fade-up" style={{ animationDelay: '0.4s', opacity: visible ? 1 : 0 }}>
+      <div className="hero__fade-up" style={{ animationDelay: '1.25s', opacity: visible ? 1 : 0 }}>
         <div className="hero__ctas">
           <MagneticButton>
             <a href="#work" className="hero__cta hero__cta--primary">View my work</a>

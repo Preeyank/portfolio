@@ -8,9 +8,9 @@ interface LayoutProps {
   visible: boolean
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, visible }: LayoutProps) {
   return (
-    <div className="layout">
+    <div className={`layout ${visible ? 'layout--entered' : ''}`}>
       <CustomCursor />
       <Nav />
       <main className="layout__content">{children}</main>

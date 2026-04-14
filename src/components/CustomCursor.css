@@ -1,9 +1,14 @@
-/* ── Hide default cursor on non-touch devices ── */
+/* ── Hide default cursor on non-touch devices ──
+   Use a 1×1 transparent PNG as cursor image.
+   This is the persistent baseline — always applied via CSS.
+   JS reinforcement handles edge cases. ── */
 @media (pointer: fine) {
   *,
   *::before,
-  *::after {
-    cursor: none !important;
+  *::after,
+  html,
+  body {
+    cursor: url('/blank.png') 0 0, auto !important;
   }
 }
 

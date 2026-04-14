@@ -1,0 +1,154 @@
+.experience {
+  padding: 120px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.experience__header {
+  margin-bottom: 64px;
+}
+
+.experience__label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(124, 158, 247, 0.7);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.experience__title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.experience__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Card ── */
+.exp-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  padding: 36px 0;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.exp-card:last-child {
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.exp-card__left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 3px;
+}
+
+.exp-card__period {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.04em;
+}
+
+.exp-card__location {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.03em;
+}
+
+.exp-card__badge {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(124, 158, 247, 0.8);
+  border: 1px solid rgba(124, 158, 247, 0.2);
+  border-radius: 100px;
+  padding: 3px 10px;
+}
+
+.exp-card__right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.exp-card__top {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.exp-card__company {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.01em;
+}
+
+.exp-card__role {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.01em;
+}
+
+.exp-card__bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exp-card__bullet {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.65;
+  padding-left: 16px;
+  position: relative;
+}
+
+.exp-card__bullet::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: rgba(124, 158, 247, 0.4);
+}
+
+.exp-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.exp-card__tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  padding: 3px 8px;
+  letter-spacing: 0.03em;
+}

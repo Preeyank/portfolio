@@ -1,0 +1,85 @@
+.contact {
+  padding: 120px 40px 160px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.contact__header {
+  margin-bottom: 64px;
+}
+
+.contact__label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(124, 158, 247, 0.7);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.contact__title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.contact__subtitle {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.6;
+}
+
+.contact__links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.contact__link:last-child {
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.contact__link:hover .contact__link-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.contact__link:hover .contact__link-value {
+  color: rgba(124, 158, 247, 0.9);
+}
+
+.contact__link-label {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.contact__link-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}

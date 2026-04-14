@@ -30,6 +30,8 @@ export default function Contact() {
             </a>
           ))}
         </div>
+
+        <p className="contact__footnote">v1.0.0 · built with react + obsession</p>
       </div>
     </section>
   )

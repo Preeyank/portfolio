@@ -20,7 +20,7 @@ const STACK: { label: string; icon: string; color: string }[] = [
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&'
 const NAME_UPRIGHT = 'Pri'
 const NAME_ITALIC = 'yank'
-const EMAIL = 'priyank@example.com'
+const EMAIL = 'bardoliapriyank05@gmail.com'
 
 // ── Scramble hook ──────────────────────────────────────────────
 function useScramble(target: string, delay: number = 0) {

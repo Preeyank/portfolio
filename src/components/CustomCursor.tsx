@@ -14,12 +14,13 @@ export default function CustomCursor() {
     const trails = trailRefs.current.filter(Boolean) as HTMLDivElement[]
     if (!dot || trails.length === 0) return
 
+    const BLANK = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGIAAAACAAHiIbwzAAAAAElFTkSuQmCC') 0 0, none"
+
     // Enforce hidden cursor via inline style on html + body
     const hideCursor = () => {
       if (!isFinePointer) return
-      const val = "url('/blank.png') 0 0, auto"
-      document.documentElement.style.setProperty('cursor', val, 'important')
-      document.body.style.setProperty('cursor', val, 'important')
+      document.documentElement.style.setProperty('cursor', BLANK, 'important')
+      document.body.style.setProperty('cursor', BLANK, 'important')
     }
     hideCursor()
 
@@ -33,32 +34,39 @@ export default function CustomCursor() {
     let mouseY = -100
     const trailPos = trails.map(() => ({ x: -100, y: -100 }))
     let raf: number
+    let hoveredEl: HTMLElement | null = null
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX
       mouseY = e.clientY
+      hoveredEl = e.target as HTMLElement
     }
+
+    const INTERACTIVE = 'a, button, [role="button"], input, textarea, select, .hero__eyebrow, .hero__pill, .hero__redacted, .proj-card, .exp-card'
 
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      if (
-        target.closest('a, button, [role="button"], input, textarea, select, .hero__eyebrow, .hero__pill, .hero__redacted, .proj-card, .exp-card')
-      ) {
+      hoveredEl = target
+      if (target.closest(INTERACTIVE)) {
         dot.classList.add('cursor-dot--hover')
       }
     }
 
     const onMouseOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      if (
-        target.closest('a, button, [role="button"], input, textarea, select, .hero__eyebrow, .hero__pill, .hero__redacted, .proj-card, .exp-card')
-      ) {
+      if (target.closest(INTERACTIVE)) {
         dot.classList.remove('cursor-dot--hover')
       }
     }
 
     const tick = () => {
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`
+
+      // Continuously stamp cursor on whatever element the mouse is over.
+      // If the browser overrides our cursor, we override it right back next frame.
+      if (isFinePointer && hoveredEl && hoveredEl.style) {
+        hoveredEl.style.cursor = BLANK
+      }
 
       for (let i = 0; i < trails.length; i++) {
         const target = i === 0 ? { x: mouseX, y: mouseY } : trailPos[i - 1]

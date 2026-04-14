@@ -4,6 +4,24 @@
   padding: 0;
 }
 
+/* Prevent browser from entering text-selection mode and forcing cursor:text */
+@media (pointer: fine) {
+  * {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection on actual readable content */
+  .about__text p,
+  .exp-card__bullets,
+  .exp-card__role,
+  .proj-card__desc,
+  .contact__value {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+}
+
 html, body, #root {
   height: 100%;
 }

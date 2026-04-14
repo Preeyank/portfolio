@@ -3,6 +3,24 @@
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+}
+
+.about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(ellipse at 30% 40%, rgba(80, 120, 200, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about.animate-in--visible::before {
+  opacity: 1;
 }
 
 .about__header {

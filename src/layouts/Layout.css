@@ -73,81 +73,6 @@
   letter-spacing: 0.03em;
 }
 
-/* ── Bottom bar ── */
-.bottom-bar {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  height: 52px;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
-  flex-shrink: 0;
-}
-
-.bottom-bar__left {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.03em;
-  flex: 1 1 0;
-}
-
-.bottom-bar__project {
-  color: rgba(124, 158, 247, 0.75);
-}
-
-.bottom-bar__center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  flex: 0 0 auto;
-}
-
-.bottom-bar__scroll-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.22);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.bottom-bar__scroll-arrow {
-  font-size: 7px;
-  color: rgba(255, 255, 255, 0.18);
-  display: inline-block;
-  /* bob animation */
-  animation: bob 2s ease-in-out infinite;
-}
-
-.bottom-bar__right {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  flex: 1 1 0;
-  text-align: right;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0;
-}
-
-.bottom-bar__elapsed {
-  color: rgba(255, 255, 255, 0.12);
-}
-
-.bottom-bar__divider {
-  color: rgba(255, 255, 255, 0.1);
-}
-
-.bottom-bar__clock {
-  color: rgba(255, 255, 255, 0.22);
-}
 
 /* ── Layout shell ── */
 .layout {
@@ -163,8 +88,3 @@
   flex-direction: column;
 }
 
-/* ── bob keyframe (for scroll arrow) ── */
-@keyframes bob {
-  0%, 100% { transform: rotate(45deg) translateY(0); }
-  50%       { transform: rotate(45deg) translateY(3px); }
-}

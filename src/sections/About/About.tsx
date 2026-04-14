@@ -2,7 +2,7 @@ import { useInView } from '../../hooks/useInView'
 import './About.css'
 
 const FACTS = [
-  { value: '2+',   label: 'years in production' },
+  { value: '3+',   label: 'years in production' },
   { value: '94%',  label: 'test coverage at GEHC' },
   { value: '95%',  label: 'onboarding time cut' },
   { value: '10B+', label: 'events processed' },

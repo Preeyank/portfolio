@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useInView } from '../../hooks/useInView'
 import ScrambleText from '../../components/ScrambleText'
+import CountUp from '../../components/CountUp'
 import './About.css'
 
 const FACTS = [
@@ -11,13 +13,16 @@ const FACTS = [
 
 export default function About() {
   const { ref, inView } = useInView<HTMLElement>()
+  const [statsReady, setStatsReady] = useState(false)
 
   return (
     <section id="about" ref={ref} className={`about animate-in ${inView ? 'animate-in--visible' : ''}`}>
       <div className="about__inner">
         <div className="about__header">
           <span className="about__label">About</span>
-          <h2 className="about__title"><ScrambleText text="The person behind the code" /></h2>
+          <h2 className="about__title">
+            <ScrambleText text="The person behind the code" onComplete={() => setStatsReady(true)} />
+          </h2>
         </div>
 
         <div className="about__body">
@@ -36,7 +41,7 @@ export default function About() {
           <div className="about__stats">
             {FACTS.map(({ value, label }) => (
               <div key={label} className="about__stat">
-                <span className="about__stat-value">{value}</span>
+                <CountUp value={value} ready={statsReady} className="about__stat-value" />
                 <span className="about__stat-label">{label}</span>
               </div>
             ))}

@@ -14,7 +14,8 @@ function runScramble(
   text: string,
   duration: number,
   setDisplay: (s: string) => void,
-  frameRef: React.MutableRefObject<number>
+  frameRef: React.MutableRefObject<number>,
+  onComplete?: () => void
 ) {
   const start = performance.now()
   const len = text.length
@@ -36,6 +37,7 @@ function runScramble(
       frameRef.current = requestAnimationFrame(tick)
     } else {
       setDisplay(text)
+      onComplete?.()
     }
   }
 
@@ -44,13 +46,15 @@ function runScramble(
 
 const DWELL_MS = 400
 
-export function useScramble(text: string, duration = 950) {
+export function useScramble(text: string, duration = 950, onComplete?: () => void) {
   // Start with a scrambled version — never show real text before it plays
   const [display, setDisplay] = useState(() => scrambledVersion(text))
   const ref = useRef<HTMLElement | null>(null)
   const frameRef = useRef<number>(0)
   const hasPlayedRef = useRef(false)
   const dwellTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const onCompleteRef = useRef(onComplete)
+  onCompleteRef.current = onComplete
 
   useEffect(() => {
     const el = ref.current
@@ -72,7 +76,7 @@ export function useScramble(text: string, duration = 950) {
             if (hasPlayedRef.current) return
             hasPlayedRef.current = true
             cancelAnimationFrame(frameRef.current)
-            runScramble(text, duration, setDisplay, frameRef)
+            runScramble(text, duration, setDisplay, frameRef, () => onCompleteRef.current?.())
           }, DWELL_MS)
         } else {
           clearDwell()

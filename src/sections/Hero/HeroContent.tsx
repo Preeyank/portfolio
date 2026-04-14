@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import MagneticButton from '../../components/MagneticButton'
 import pythonIcon from '../../assets/python.svg'
 import awsIcon from '../../assets/aws.svg'
 import dynamodbIcon from '../../assets/dynamodb.svg'
@@ -178,8 +179,12 @@ export default function HeroContent({ visible }: HeroContentProps) {
       {/* CTAs */}
       <div className="hero__fade-up" style={{ animationDelay: '0.4s', opacity: visible ? 1 : 0 }}>
         <div className="hero__ctas">
-          <a href="#work" className="hero__cta hero__cta--primary">View my work</a>
-          <a href="#contact" className="hero__cta hero__cta--ghost">Get in touch</a>
+          <MagneticButton>
+            <a href="#work" className="hero__cta hero__cta--primary">View my work</a>
+          </MagneticButton>
+          <MagneticButton>
+            <a href="#contact" className="hero__cta hero__cta--ghost">Get in touch</a>
+          </MagneticButton>
         </div>
       </div>
     </main>

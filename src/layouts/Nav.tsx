@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import MagneticButton from '../components/MagneticButton'
 
 const NAV_LINKS = [
   { label: 'Experience', id: 'work' },
@@ -43,13 +44,15 @@ export default function Nav() {
       <ul className="nav__links">
         {NAV_LINKS.map(({ label, id }) => (
           <li key={id}>
-            <a
-              href={`#${id}`}
-              className={`nav__link ${active === id ? 'nav__link--active' : ''}`}
-              onClick={(e) => handleClick(e, id)}
-            >
-              {label}
-            </a>
+            <MagneticButton strength={0.3}>
+              <a
+                href={`#${id}`}
+                className={`nav__link ${active === id ? 'nav__link--active' : ''}`}
+                onClick={(e) => handleClick(e, id)}
+              >
+                {label}
+              </a>
+            </MagneticButton>
           </li>
         ))}
       </ul>

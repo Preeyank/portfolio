@@ -120,3 +120,11 @@
   margin-top: 64px;
   text-align: center;
 }
+
+.contact__hint {
+  transition: color 0.3s;
+}
+
+.contact__hint:hover {
+  color: rgba(124, 158, 247, 0.4);
+}

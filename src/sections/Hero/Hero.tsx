@@ -9,11 +9,17 @@ interface HeroProps {
 export default function Hero({ visible }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null)
   const spotRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const hero = heroRef.current
     const spot = spotRef.current
-    if (!hero || !spot) return
+    const grid = gridRef.current
+    const glow = glowRef.current
+    const content = contentRef.current
+    if (!hero || !spot || !grid || !glow || !content) return
 
     let targetX = 50
     let targetY = 50
@@ -28,10 +34,18 @@ export default function Hero({ visible }: HeroProps) {
     }
 
     const tick = () => {
+      // Mouse spotlight
       currentX += (targetX - currentX) * 0.08
       currentY += (targetY - currentY) * 0.08
       spot.style.setProperty('--spot-x', `${currentX}%`)
       spot.style.setProperty('--spot-y', `${currentY}%`)
+
+      // Scroll parallax — each layer at different speed
+      const scrollY = window.scrollY
+      grid.style.transform    = `translateY(${scrollY * 0.3}px)`
+      glow.style.transform    = `translateX(-50%) translateY(${scrollY * 0.5}px)`
+      content.style.transform = `translateY(${scrollY * 0.12}px)`
+
       raf = requestAnimationFrame(tick)
     }
 
@@ -46,9 +60,9 @@ export default function Hero({ visible }: HeroProps) {
 
   return (
     <div className="hero" ref={heroRef}>
-      <div className="hero__grid" />
+      <div className="hero__grid" ref={gridRef} />
       <div className="hero__grid-fade" />
-      <div className="hero__glow" />
+      <div className="hero__glow" ref={glowRef} />
       <div className="hero__spotlight" ref={spotRef} />
 
       {/* Radar sweep lines */}
@@ -60,7 +74,9 @@ export default function Hero({ visible }: HeroProps) {
       {/* CRT scan line — fires once on load */}
       <div className="hero__scanline" aria-hidden="true" />
 
-      <HeroContent visible={visible} />
+      <div ref={contentRef} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <HeroContent visible={visible} />
+      </div>
     </div>
   )
 }

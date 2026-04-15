@@ -31,7 +31,7 @@ export default function Contact() {
           ))}
         </div>
 
-        <p className="contact__footnote">v1.0.0 · built with react + obsession</p>
+        <p className="contact__footnote">v1.0.0 · built with react + obsession · <span className="contact__hint" title="try it">↑↑↓↓</span></p>
       </div>
     </section>
   )

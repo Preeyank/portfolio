@@ -1,0 +1,134 @@
+/* ── Fullscreen overlay ── */
+.egg {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: egg-fade-in 0.4s ease forwards;
+}
+
+@keyframes egg-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── CRT scanline overlay ── */
+.egg__scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+/* ── Terminal window ── */
+.egg__terminal {
+  position: relative;
+  width: 90%;
+  max-width: 640px;
+  background: rgba(11, 12, 14, 0.95);
+  border: 1px solid rgba(124, 158, 247, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(124, 158, 247, 0.08),
+              0 0 120px rgba(124, 158, 247, 0.03);
+  animation: egg-terminal-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+@keyframes egg-terminal-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Terminal header ── */
+.egg__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.egg__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.egg__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.egg__dot--red {
+  background: #ff5f57;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.egg__dot--red:hover {
+  opacity: 0.7;
+}
+
+.egg__dot--yellow {
+  background: #febc2e;
+}
+
+.egg__dot--green {
+  background: #28c840;
+}
+
+.egg__title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.03em;
+}
+
+/* ── Terminal body ── */
+.egg__body {
+  padding: 24px 20px 32px;
+  min-height: 300px;
+}
+
+.egg__line {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  min-height: 1.8em;
+  animation: egg-line-in 0.15s ease;
+}
+
+@keyframes egg-line-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.egg__line--accent {
+  color: rgba(124, 158, 247, 0.9);
+}
+
+/* ── Blinking cursor ── */
+.egg__cursor {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: rgba(124, 158, 247, 0.7);
+  animation: egg-blink 0.8s steps(1) infinite;
+}
+
+@keyframes egg-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}

@@ -33,20 +33,31 @@
 /* ── Background grid ── */
 .hero__grid {
   position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.2s;
+  will-change: transform;
+}
+
+.layout--entered .hero__grid {
+  opacity: 1;
+}
+
+/* Breathe animation lives on a pseudo-element so it doesn't fight JS transform */
+.hero__grid::after {
+  content: '';
+  position: absolute;
   inset: 0;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px);
   background-size: 40px 40px;
-  pointer-events: none;
   transform-origin: center center;
   animation: grid-breathe 12s ease-in-out infinite;
-  opacity: 0;
-  transition: opacity 0.8s ease 0.2s;
-}
-
-.layout--entered .hero__grid {
-  opacity: 1;
 }
 
 .hero__grid-fade {

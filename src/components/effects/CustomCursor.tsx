@@ -7,7 +7,6 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const trailRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // Cursor rendering + hide enforcement in a single effect
   useEffect(() => {
     const isFinePointer = window.matchMedia('(pointer: fine)').matches
     const dot = dotRef.current
@@ -16,7 +15,6 @@ export default function CustomCursor() {
 
     const BLANK = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGIAAAACAAHiIbwzAAAAAElFTkSuQmCC') 0 0, none"
 
-    // Enforce hidden cursor via inline style on html + body
     const hideCursor = () => {
       if (!isFinePointer) return
       document.documentElement.style.setProperty('cursor', BLANK, 'important')
@@ -24,7 +22,6 @@ export default function CustomCursor() {
     }
     hideCursor()
 
-    // Re-enforce on tab switch and window focus
     const onVisibility = () => { if (document.visibilityState === 'visible') hideCursor() }
     const onFocus = () => hideCursor()
     document.addEventListener('visibilitychange', onVisibility)
@@ -62,8 +59,6 @@ export default function CustomCursor() {
     const tick = () => {
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`
 
-      // Continuously stamp cursor on whatever element the mouse is over.
-      // If the browser overrides our cursor, we override it right back next frame.
       if (isFinePointer && hoveredEl && hoveredEl.style) {
         hoveredEl.style.cursor = BLANK
       }

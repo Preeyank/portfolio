@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import Layout from './layouts/Layout'
+import { Layout } from './layouts'
+import { SectionDivider } from './components/ui'
 import Hero from './sections/Hero'
-import Experience from './sections/Experience/Experience'
-import Projects from './sections/Projects/Projects'
-import About from './sections/About/About'
-import Contact from './sections/Contact/Contact'
-import SectionDivider from './components/SectionDivider'
+import Experience from './sections/Experience'
+import Projects from './sections/Projects'
+import About from './sections/About'
+import Contact from './sections/Contact'
 
 function App() {
   const [visible, setVisible] = useState(false)

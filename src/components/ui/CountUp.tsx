@@ -1,4 +1,4 @@
-import { useCountUp } from '../hooks/useCountUp'
+import { useCountUp } from '../../hooks'
 
 interface CountUpProps {
   value: string

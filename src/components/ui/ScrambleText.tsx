@@ -1,4 +1,4 @@
-import { useScramble } from '../hooks/useScramble'
+import { useScramble } from '../../hooks'
 
 interface ScrambleTextProps {
   text: string

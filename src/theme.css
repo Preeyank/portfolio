@@ -1,0 +1,30 @@
+:root {
+  /* ── Colors ── */
+  --color-bg:            #0b0c0e;
+  --color-bg-cta:        #0d0f1a;
+  --color-accent:        124, 158, 247;
+  --color-accent-alt:    200, 215, 255;
+  --color-status:        74, 222, 128;
+  --color-warn:          251, 191, 36;
+
+  /* ── Typography ── */
+  --font-display: 'DM Serif Display', serif;
+  --font-mono:    'DM Mono', monospace;
+  --font-sans:    'Instrument Sans', sans-serif;
+
+  /* ── Easing ── */
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring:   cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* ── Durations ── */
+  --duration-hover:  0.2s;
+  --duration-short:  0.25s;
+  --duration-medium: 0.5s;
+  --duration-long:   0.7s;
+  --duration-xlong:  1.2s;
+
+  /* ── Layout ── */
+  --max-content-width: 1100px;
+  --section-padding-y: 120px;
+  --section-padding-x: 40px;
+}

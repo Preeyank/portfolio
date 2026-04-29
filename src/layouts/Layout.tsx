@@ -1,8 +1,7 @@
 import './Layout.css'
 import Nav from './Nav'
-import Marquee from '../components/Marquee'
-import CustomCursor from '../components/CustomCursor'
-import EasterEgg from '../components/EasterEgg'
+import { Marquee } from '../components/ui'
+import { CustomCursor, EasterEgg } from '../components/effects'
 
 interface LayoutProps {
   children: React.ReactNode

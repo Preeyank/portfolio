@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react'
-import MagneticButton from '../components/MagneticButton'
-
-const NAV_LINKS = [
-  { label: 'Experience', id: 'work' },
-  { label: 'Projects',   id: 'projects' },
-  { label: 'About',      id: 'about' },
-  { label: 'Contact',    id: 'contact' },
-]
+import { MagneticButton } from '../components/ui'
+import { NAV_LINKS } from '../content'
 
 export default function Nav() {
   const [active, setActive] = useState('')

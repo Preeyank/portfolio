@@ -104,3 +104,22 @@
   text-transform: uppercase;
   line-height: 1.4;
 }
+
+@media (max-width: 768px) {
+  .about__inner {
+    padding: 80px 20px;
+  }
+
+  .about__header {
+    margin-bottom: 48px;
+  }
+
+  .about__body {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about__stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

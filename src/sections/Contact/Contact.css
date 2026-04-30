@@ -128,3 +128,13 @@
 .contact__hint:hover {
   color: rgba(124, 158, 247, 0.4);
 }
+
+@media (max-width: 768px) {
+  .contact__inner {
+    padding: 80px 20px 120px;
+  }
+
+  .contact__header {
+    margin-bottom: 48px;
+  }
+}

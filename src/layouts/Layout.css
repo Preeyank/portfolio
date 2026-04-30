@@ -74,6 +74,43 @@
 
 /* pulse-dot keyframe referenced from Hero.css which is always loaded */
 
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 20px;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 0;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .nav__logo {
+    flex: 1 1 auto;
+  }
+
+  .nav__links {
+    order: 3;
+    width: 100%;
+    gap: 0;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+    margin-top: 12px;
+    padding-top: 12px;
+    justify-content: space-between;
+  }
+
+  .nav__link {
+    font-size: 13px;
+  }
+
+  .nav__status {
+    flex: 0 0 auto;
+  }
+
+  .nav__status-text {
+    display: none;
+  }
+}
+
 .nav__status-text {
   font-family: "DM Mono", monospace;
   font-size: 12px;

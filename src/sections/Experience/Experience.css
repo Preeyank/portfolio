@@ -76,6 +76,28 @@
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
 }
 
+@media (max-width: 768px) {
+  .experience__inner {
+    padding: 80px 20px;
+  }
+
+  .experience__header {
+    margin-bottom: 48px;
+  }
+
+  .exp-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 28px 0 28px 12px;
+  }
+
+  .exp-card__left {
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+  }
+}
+
 .exp-card__left {
   display: flex;
   flex-direction: column;

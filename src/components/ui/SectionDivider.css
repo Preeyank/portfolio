@@ -6,6 +6,12 @@
   overflow: hidden;
 }
 
+@media (max-width: 768px) {
+  .section-divider {
+    padding: 0 20px;
+  }
+}
+
 .section-divider__line {
   height: 0.5px;
   background: linear-gradient(

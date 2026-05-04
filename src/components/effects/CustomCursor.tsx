@@ -32,19 +32,16 @@ export default function CustomCursor() {
     let mouseY = -100
     const trailPos = trails.map(() => ({ x: -100, y: -100 }))
     let raf: number
-    let hoveredEl: HTMLElement | null = null
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX
       mouseY = e.clientY
-      hoveredEl = e.target as HTMLElement
     }
 
     const INTERACTIVE = 'a, button, [role="button"], input, textarea, select, .hero__eyebrow, .hero__pill, .hero__redacted, .proj-card, .exp-card'
 
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      hoveredEl = target
       if (target.closest(INTERACTIVE)) {
         dot.classList.add('cursor-dot--hover')
       }
@@ -59,10 +56,6 @@ export default function CustomCursor() {
 
     const tick = () => {
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`
-
-      if (isFinePointer && hoveredEl && hoveredEl.style) {
-        hoveredEl.style.cursor = BLANK
-      }
 
       if (!reducedMotion) {
         for (let i = 0; i < trails.length; i++) {

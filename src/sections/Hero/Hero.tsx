@@ -29,6 +29,7 @@ export default function Hero({ visible }: HeroProps) {
     let currentX = 50
     let currentY = 50
     let raf: number
+    let heroVisible = true
 
     const onMouseMove = (e: MouseEvent) => {
       const rect = hero.getBoundingClientRect()
@@ -37,26 +38,32 @@ export default function Hero({ visible }: HeroProps) {
     }
 
     const tick = () => {
-      // Mouse spotlight
-      currentX += (targetX - currentX) * 0.08
-      currentY += (targetY - currentY) * 0.08
-      spot.style.setProperty('--spot-x', `${currentX}%`)
-      spot.style.setProperty('--spot-y', `${currentY}%`)
+      if (heroVisible) {
+        currentX += (targetX - currentX) * 0.08
+        currentY += (targetY - currentY) * 0.08
+        spot.style.setProperty('--spot-x', `${currentX}%`)
+        spot.style.setProperty('--spot-y', `${currentY}%`)
 
-      // Scroll parallax — each layer at different speed
-      const scrollY = window.scrollY
-      grid.style.transform    = `translateY(${scrollY * 0.3}px)`
-      glow.style.transform    = `translateX(-50%) translateY(${scrollY * 0.5}px)`
-      content.style.transform = `translateY(${scrollY * 0.12}px)`
-
+        const scrollY = window.scrollY
+        grid.style.transform    = `translateY(${scrollY * 0.3}px)`
+        glow.style.transform    = `translateX(-50%) translateY(${scrollY * 0.5}px)`
+        content.style.transform = `translateY(${scrollY * 0.12}px)`
+      }
       raf = requestAnimationFrame(tick)
     }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => { heroVisible = entry.isIntersecting },
+      { threshold: 0 }
+    )
+    observer.observe(hero)
 
     raf = requestAnimationFrame(tick)
     hero.addEventListener('mousemove', onMouseMove)
 
     return () => {
       cancelAnimationFrame(raf)
+      observer.disconnect()
       hero.removeEventListener('mousemove', onMouseMove)
     }
   }, [])

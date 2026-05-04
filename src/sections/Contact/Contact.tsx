@@ -1,6 +1,6 @@
 import { useInView } from '../../hooks'
 import { ScrambleText } from '../../components/ui'
-import { CONTACT_LINKS } from '../../content'
+import { CONTACT_LINKS, RESUME_URL, RESUME_FILENAME } from '../../content'
 import './Contact.css'
 
 export default function Contact() {
@@ -24,6 +24,10 @@ export default function Contact() {
               <span className="contact__link-value">{value} ↗</span>
             </a>
           ))}
+          <a href={RESUME_URL} download={RESUME_FILENAME} className="contact__link">
+            <span className="contact__link-label">Resume</span>
+            <span className="contact__link-value">download ↓</span>
+          </a>
         </div>
 
         <p className="contact__footnote">v1.0.0 · built with react + obsession · <span className="contact__hint" title="try it">↑↑↓↓</span></p>

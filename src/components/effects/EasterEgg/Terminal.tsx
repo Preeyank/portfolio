@@ -6,6 +6,8 @@ import {
   HIRE_ALIASES,
   unknownCommand,
   EMAIL,
+  RESUME_URL,
+  RESUME_FILENAME,
 } from '../../../content'
 
 interface TerminalProps {
@@ -53,13 +55,20 @@ export default function Terminal({ onClose }: TerminalProps) {
       navigator.clipboard.writeText(EMAIL).catch(() => {})
     }
 
+    if (trimmed === 'resume') {
+      const a = document.createElement('a')
+      a.href = RESUME_URL
+      a.download = RESUME_FILENAME
+      a.click()
+    }
+
     const response = COMMANDS[trimmed] ?? unknownCommand(trimmed)
     const outputLines: TerminalLine[] = response.map(text => ({ text, type: 'output' }))
 
     setLines(prev => [...prev, inputLine, ...outputLines])
   }, [onClose])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!input.trim()) return
     runCommand(input)

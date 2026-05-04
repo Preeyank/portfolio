@@ -1,6 +1,8 @@
 import type { ContactLink } from '../types'
 
 export const EMAIL = 'bardoliapriyank05@gmail.com'
+export const RESUME_URL = '/resume.pdf'
+export const RESUME_FILENAME = 'Priyank_Bardolia_Resume.pdf'
 
 export const CONTACT_LINKS: ContactLink[] = [
   { label: 'Email',    value: EMAIL,             href: `mailto:${EMAIL}` },

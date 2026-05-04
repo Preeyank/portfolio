@@ -1,5 +1,5 @@
 import type { CommandRegistry } from '../types'
-import { EMAIL } from './contact'
+import { EMAIL, RESUME_FILENAME } from './contact'
 
 export const KONAMI_SEQUENCE = [
   'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
@@ -73,8 +73,7 @@ export const COMMANDS: CommandRegistry = {
   resume: [
     '',
     '  > Preparing download...',
-    `  > Just kidding. Email me: ${EMAIL}`,
-    '  > Or find me on LinkedIn: priyank-bardolia',
+    `  ✓ ${RESUME_FILENAME} — done.`,
     '',
   ],
   hire: [

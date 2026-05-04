@@ -76,10 +76,18 @@ export default function HeroContent({ visible }: HeroContentProps) {
       <div className="hero__fade-up" style={{ animationDelay: '1.25s', opacity: visible ? 1 : 0 }}>
         <div className="hero__ctas">
           <MagneticButton>
-            <a href="#work" className="hero__cta hero__cta--primary">View my work</a>
+            <a
+              href="#work"
+              className="hero__cta hero__cta--primary"
+              onClick={(e) => { e.preventDefault(); document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+            >View my work</a>
           </MagneticButton>
           <MagneticButton>
-            <a href="#contact" className="hero__cta hero__cta--ghost">Get in touch</a>
+            <a
+              href="#contact"
+              className="hero__cta hero__cta--ghost"
+              onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+            >Get in touch</a>
           </MagneticButton>
         </div>
       </div>

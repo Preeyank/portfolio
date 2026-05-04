@@ -67,7 +67,7 @@ export const COMMANDS: CommandRegistry = {
     '  The pattern: find a hard problem, build the ugly v1,',
     '  then polish it until it feels inevitable.',
     '',
-    '  This portfolio? v47. (I counted.)',
+    '  This portfolio? Lost count of the versions.',
     '',
   ],
   resume: [

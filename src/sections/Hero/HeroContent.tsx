@@ -20,7 +20,7 @@ export default function HeroContent({ visible }: HeroContentProps) {
           <button
             className={`hero__eyebrow-text hero__eyebrow-btn ${copied ? 'hero__eyebrow-btn--copied' : ''}`}
             onClick={() => copy(EMAIL)}
-            title={`Copy ${EMAIL}`}
+            title="Copy email"
           >
             {copied ? 'copied ✓' : 'Full Stack Developer'}
           </button>

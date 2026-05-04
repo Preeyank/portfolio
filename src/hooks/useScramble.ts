@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
@@ -14,7 +14,7 @@ function runScramble(
   text: string,
   duration: number,
   setDisplay: (s: string) => void,
-  frameRef: React.MutableRefObject<number>,
+  frameRef: React.RefObject<number>,
   onComplete?: () => void
 ) {
   const start = performance.now()
@@ -54,7 +54,7 @@ export function useScramble(text: string, duration = 950, onComplete?: () => voi
   const hasPlayedRef = useRef(false)
   const dwellTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const onCompleteRef = useRef(onComplete)
-  onCompleteRef.current = onComplete
+  useLayoutEffect(() => { onCompleteRef.current = onComplete })
 
   useEffect(() => {
     const el = ref.current
@@ -89,7 +89,7 @@ export function useScramble(text: string, duration = 950, onComplete?: () => voi
     return () => {
       observer.disconnect()
       clearDwell()
-      cancelAnimationFrame(frameRef.current)
+      cancelAnimationFrame(frameRef.current) // eslint-disable-line react-hooks/exhaustive-deps
     }
   }, [text, duration])
 

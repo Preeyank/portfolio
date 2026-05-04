@@ -9,6 +9,7 @@ export default function CustomCursor() {
 
   useEffect(() => {
     const isFinePointer = window.matchMedia('(pointer: fine)').matches
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const dot = dotRef.current
     const trails = trailRefs.current.filter(Boolean) as HTMLDivElement[]
     if (!dot || trails.length === 0) return
@@ -63,12 +64,14 @@ export default function CustomCursor() {
         hoveredEl.style.cursor = BLANK
       }
 
-      for (let i = 0; i < trails.length; i++) {
-        const target = i === 0 ? { x: mouseX, y: mouseY } : trailPos[i - 1]
-        const ease = 0.25 - i * 0.03
-        trailPos[i].x += (target.x - trailPos[i].x) * ease
-        trailPos[i].y += (target.y - trailPos[i].y) * ease
-        trails[i].style.transform = `translate(${trailPos[i].x}px, ${trailPos[i].y}px)`
+      if (!reducedMotion) {
+        for (let i = 0; i < trails.length; i++) {
+          const target = i === 0 ? { x: mouseX, y: mouseY } : trailPos[i - 1]
+          const ease = 0.25 - i * 0.03
+          trailPos[i].x += (target.x - trailPos[i].x) * ease
+          trailPos[i].y += (target.y - trailPos[i].y) * ease
+          trails[i].style.transform = `translate(${trailPos[i].x}px, ${trailPos[i].y}px)`
+        }
       }
 
       raf = requestAnimationFrame(tick)

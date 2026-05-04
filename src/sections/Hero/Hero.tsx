@@ -21,6 +21,9 @@ export default function Hero({ visible }: HeroProps) {
     const content = contentRef.current
     if (!hero || !spot || !grid || !glow || !content) return
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) return
+
     let targetX = 50
     let targetY = 50
     let currentX = 50

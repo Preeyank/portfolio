@@ -2,8 +2,15 @@ import { useEffect, useState } from 'react'
 import { MagneticButton } from '../components/ui'
 import { NAV_LINKS } from '../content'
 
-export default function Nav() {
+interface NavProps {
+  onOpenPalette: () => void
+}
+
+export default function Nav({ onOpenPalette }: NavProps) {
   const [active, setActive] = useState('')
+  const [isMac] = useState(() =>
+    typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
+  )
 
   useEffect(() => {
     const sections = NAV_LINKS.map((l) => document.getElementById(l.id)).filter(Boolean) as HTMLElement[]
@@ -52,6 +59,17 @@ export default function Nav() {
       </ul>
 
       <div className="nav__status">
+        <button
+          type="button"
+          className="nav__cmdk"
+          onClick={onOpenPalette}
+          aria-label="Open command palette"
+          title="Open command palette"
+        >
+          <kbd className="nav__cmdk-key">{isMac ? '⌘' : 'ctrl'}</kbd>
+          <kbd className="nav__cmdk-key">K</kbd>
+        </button>
+        <span className="nav__divider" aria-hidden="true" />
         <span className="nav__dot" />
         <span className="nav__status-text">Available for work</span>
       </div>

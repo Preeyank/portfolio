@@ -1,23 +1,18 @@
-import { useCallback, useState } from 'react'
-import { useKonami } from '../../../hooks'
-import { KONAMI_SEQUENCE } from '../../../content'
 import Terminal from './Terminal'
 import './EasterEgg.css'
 
-export default function EasterEgg() {
-  const [active, setActive] = useState(false)
+interface EasterEggProps {
+  active: boolean
+  onClose: () => void
+}
 
-  const activate = useCallback(() => setActive(true), [])
-  const close = useCallback(() => setActive(false), [])
-
-  useKonami(KONAMI_SEQUENCE, activate, !active)
-
+export default function EasterEgg({ active, onClose }: EasterEggProps) {
   if (!active) return null
 
   return (
-    <div className="egg" onClick={close}>
+    <div className="egg" onClick={onClose}>
       <div className="egg__scanline" />
-      <Terminal onClose={close} />
+      <Terminal onClose={onClose} />
     </div>
   )
 }

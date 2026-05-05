@@ -119,6 +119,49 @@
   letter-spacing: 0.03em;
 }
 
+/* ── ⌘K trigger ── */
+.nav__cmdk {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav__cmdk:hover {
+  background: rgba(124, 158, 247, 0.08);
+  border-color: rgba(124, 158, 247, 0.3);
+}
+
+.nav__cmdk-key {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.nav__cmdk:hover .nav__cmdk-key {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.nav__divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 4px;
+}
+
+@media (max-width: 768px) {
+  .nav__divider { display: none; }
+  .nav__cmdk { padding: 3px 6px; }
+}
+
 /* ── Layout shell ── */
 .layout {
   display: flex;

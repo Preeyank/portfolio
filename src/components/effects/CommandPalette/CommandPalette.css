@@ -1,0 +1,295 @@
+/* ── Backdrop ── */
+.cmdk {
+  position: fixed;
+  inset: 0;
+  z-index: 99995;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(11, 12, 14, 0.15) 0%,
+    rgba(11, 12, 14, 0.4) 100%
+  );
+  backdrop-filter: blur(28px) saturate(1.2);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+  animation: cmdk-fade-in 0.22s ease forwards;
+}
+
+@keyframes cmdk-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Panel ── */
+.cmdk__panel {
+  width: 92%;
+  max-width: 580px;
+  max-height: 70vh;
+  background: rgba(11, 12, 14, 0.96);
+  border: 1px solid rgba(124, 158, 247, 0.18);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 24px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(124, 158, 247, 0.08),
+    0 0 120px rgba(124, 158, 247, 0.04);
+  animation: cmdk-panel-in 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes cmdk-panel-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Search row ── */
+.cmdk__search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.cmdk__search-symbol {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: rgba(124, 158, 247, 0.85);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cmdk__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 0.01em;
+  caret-color: rgba(124, 158, 247, 0.9);
+  padding: 0;
+}
+
+.cmdk__input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* ── List ── */
+.cmdk__list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.cmdk__list::-webkit-scrollbar { width: 6px; }
+.cmdk__list::-webkit-scrollbar-track { background: transparent; }
+.cmdk__list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.cmdk__group {
+  padding: 4px 0;
+}
+
+.cmdk__group-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.32);
+  padding: 8px 18px 6px;
+}
+
+/* ── Item ── */
+.cmdk__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  background: none;
+  border: none;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  border-left: 2px solid transparent;
+  transition: background 0.12s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cmdk__item:focus { outline: none; }
+.cmdk__item:focus-visible {
+  background: rgba(124, 158, 247, 0.08);
+  border-left-color: rgba(124, 158, 247, 0.85);
+}
+
+/* ── Icon glyph ── */
+.cmdk__item-icon {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.32);
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cmdk__item--active .cmdk__item-icon {
+  color: rgba(124, 158, 247, 0.9);
+}
+
+.cmdk__item--active {
+  background: rgba(124, 158, 247, 0.08);
+  border-left-color: rgba(124, 158, 247, 0.85);
+}
+
+.cmdk__item-label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ── Search match highlight ── */
+.cmdk__match {
+  background: transparent;
+  color: rgba(124, 158, 247, 1);
+  font-weight: 500;
+  text-shadow: 0 0 12px rgba(124, 158, 247, 0.25);
+}
+
+.cmdk__item--active .cmdk__match {
+  color: rgba(166, 192, 255, 1);
+  text-shadow: 0 0 14px rgba(124, 158, 247, 0.4);
+}
+
+.cmdk__item-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+}
+
+.cmdk__item--active .cmdk__item-hint {
+  color: rgba(124, 158, 247, 0.7);
+}
+
+/* ── Secrets (non-interactive hint) ── */
+.cmdk__group--secrets {
+  border-top: 1px dashed rgba(255, 255, 255, 0.05);
+  margin-top: 4px;
+  padding-top: 6px;
+}
+
+.cmdk__hint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 18px 12px;
+}
+
+.cmdk__hint-label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.01em;
+  font-style: italic;
+}
+
+.cmdk__hint-keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.cmdk__hint-keys .cmdk__kbd {
+  min-width: 18px;
+  text-align: center;
+  padding: 3px 5px;
+}
+
+/* ── Empty ── */
+.cmdk__empty {
+  padding: 28px 18px;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.32);
+  letter-spacing: 0.02em;
+}
+
+/* ── Footer ── */
+.cmdk__footer {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.cmdk__footer-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.36);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+/* ── kbd chip ── */
+.cmdk__kbd {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 2px 6px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .cmdk { padding-top: 8vh; }
+  .cmdk__panel { width: 94%; max-height: 78vh; }
+  .cmdk__item-hint { display: none; }
+  .cmdk__footer { gap: 12px; padding: 10px 14px; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .cmdk,
+  .cmdk__panel { animation: none; }
+}

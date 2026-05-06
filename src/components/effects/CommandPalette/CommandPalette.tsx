@@ -187,7 +187,7 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
     const previouslyFocused = document.activeElement as HTMLElement | null
     return () => {
       if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
-        previouslyFocused.focus()
+        previouslyFocused.focus({ preventScroll: true })
       }
     }
   }, [open])

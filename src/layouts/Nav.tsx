@@ -38,9 +38,17 @@ export default function Nav({ onOpenPalette }: NavProps) {
     }
   }
 
+  const handleLogoClick = () => {
+    const hero = document.querySelector('.hero') as HTMLElement | null
+    if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    else window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <nav className="nav">
-      <span className="nav__logo">preeyank.dev</span>
+      <button type="button" className="nav__logo" onClick={handleLogoClick} aria-label="Scroll to top">
+        preeyank.dev
+      </button>
 
       <ul className="nav__links">
         {NAV_LINKS.map(({ label, id }) => (

@@ -5,6 +5,7 @@ import Hero from './sections/Hero'
 import Experience from './sections/Experience'
 import Projects from './sections/Projects'
 import About from './sections/About'
+import Now from './sections/Now'
 import Contact from './sections/Contact'
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
       <Projects />
       <SectionDivider />
       <About />
+      <SectionDivider />
+      <Now />
       <SectionDivider />
       <Contact />
     </Layout>

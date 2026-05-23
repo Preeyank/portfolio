@@ -12,9 +12,8 @@ export default function Now() {
     >
       <div className="now__panel">
         <div className="now__meta">
-          <span className="now__pulse">
-            <span className="now__pulse-dot" aria-hidden="true" />
-            Live
+          <span className="now__pulse" aria-hidden="true">
+            <span className="now__pulse-dot" />
           </span>
           <span className="now__updated">Last updated {NOW_UPDATED}</span>
         </div>

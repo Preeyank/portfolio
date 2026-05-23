@@ -39,6 +39,11 @@ export interface StackItem {
   color: string
 }
 
+export interface NowItem {
+  label: string
+  value: string
+}
+
 export type TerminalLine = { text: string; type: 'output' | 'input' }
 
 export type CommandRegistry = Record<string, string[]>

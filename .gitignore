@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 CLAUDE.md
+
+# Auto-generated from public/resume.pdf via scripts/extract-resume.mjs
+src/content/_resumeText.ts
+
+# Vercel CLI link metadata (created by `vercel link`)
+.vercel
+.env*

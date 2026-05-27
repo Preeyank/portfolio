@@ -15,6 +15,16 @@ export interface Project {
   stack: string[]
   live: string
   github: string
+
+  // Fields below are read only by the Ask Preeyank chatbot context builder.
+  // They are intentionally not surfaced in the ProjectCard UI — adding rich
+  // context for the bot without bloating the card.
+  problem?: string
+  motivation?: string
+  highlights?: string[]
+  challenges?: string[]
+  learnings?: string[]
+  notes?: string
 }
 
 export interface Fact {

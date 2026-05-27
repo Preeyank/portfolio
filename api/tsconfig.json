@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": false,
+    "isolatedModules": true
+  },
+  "include": [
+    "**/*.ts",
+    "../src/content/experience.ts",
+    "../src/content/projects.ts",
+    "../src/content/about.ts",
+    "../src/content/now.ts",
+    "../src/content/contact.ts",
+    "../src/content/_resumeText.ts",
+    "../src/types/**/*.ts"
+  ]
+}

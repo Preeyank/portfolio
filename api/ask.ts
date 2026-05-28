@@ -15,7 +15,7 @@ export const config = {
   runtime: 'edge',
 }
 
-const GEMINI_MODEL = 'gemini-2.5-flash'
+const GEMINI_MODEL = 'gemini-3.1-flash-lite'
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse`
 
 const MAX_USER_MESSAGE_LEN = 1000

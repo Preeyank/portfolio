@@ -12,7 +12,7 @@ type Command = {
   id: string
   label: string
   hint?: string
-  group: 'Navigate' | 'Actions' | 'Links'
+  group: 'Ask' | 'Navigate' | 'Actions' | 'Links'
   keywords?: string
   icon: string
   href?: string
@@ -78,6 +78,21 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const itemRefs = useRef<(HTMLElement | null)[]>([])
 
   const commands = useMemo<Command[]>(() => {
+    const askCmds: Command[] = [
+      {
+        id: 'ask-preeyank',
+        label: 'Ask Preeyank',
+        hint: 'chat with my résumé',
+        group: 'Ask',
+        keywords: 'ai chatbot question gemini bot resume',
+        icon: '✦',
+        run: () => {
+          window.dispatchEvent(new Event('ask:open'))
+          onClose()
+        },
+      },
+    ]
+
     const navCmds: Command[] = NAV_LINKS.map((l) => ({
       id: `nav-${l.id}`,
       label: `Go to ${l.label}`,
@@ -144,7 +159,7 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
         href: l.href,
       }))
 
-    return [...navCmds, ...actions, ...links]
+    return [...askCmds, ...navCmds, ...actions, ...links]
   }, [onClose])
 
   const filtered = useMemo(() => {
@@ -157,7 +172,7 @@ export default function CommandPalette({ open, onClose }: CommandPaletteProps) {
   }, [commands, query])
 
   const grouped = useMemo(() => {
-    const order: Command['group'][] = ['Navigate', 'Actions', 'Links']
+    const order: Command['group'][] = ['Ask', 'Navigate', 'Actions', 'Links']
     return order
       .map((group) => ({ group, items: filtered.filter((c) => c.group === group) }))
       .filter((g) => g.items.length > 0)

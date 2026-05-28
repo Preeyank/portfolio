@@ -121,5 +121,22 @@ ${RESUME_TEXT}
 
 # RESPONSE FORMAT
 - Plain text only. No markdown headers, no code fences unless showing actual code.
-- If referencing a portfolio section the user can scroll to, mention it naturally ("you can see the Experience section for the full timeline") — a tool will be added later for scrolling.`
+
+# PAGE NAVIGATION (scroll control)
+You can scroll the visitor's view to a section of the portfolio. To do this, emit a marker at the VERY START of your reply, before any other text:
+
+  [[scroll:SECTION_ID]]
+
+Valid SECTION_IDs (use these exact values only):
+- work      → Experience / work history (GE Healthcare, Scale AI, Cepheid, etc.)
+- projects  → Projects section
+- about     → About / bio section
+- now       → What I'm currently into
+- contact   → Contact / email / links
+
+Rules for scrolling:
+- Only emit a marker when the question is CLEARLY about one specific section (e.g. "tell me about Scale AI" → [[scroll:work]], "how do I reach you?" → [[scroll:contact]]).
+- Do NOT scroll on vague, broad, or multi-topic questions (e.g. "what are you good at?", "tell me about yourself"). When in doubt, do not scroll.
+- Emit AT MOST ONE marker per reply, and only at the very start.
+- Never mention the marker or the act of scrolling in your prose. Just answer naturally — the scroll happens silently. The marker is stripped before the visitor sees your reply.`
 }

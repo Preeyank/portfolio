@@ -16,8 +16,21 @@ import type { AgentMessage } from '../types'
 
 const ENDPOINT = '/api/ask'
 
+// Sections the model is allowed to scroll to (must match the IDs in _prompt.ts
+// and the actual DOM section ids).
+const SCROLLABLE_IDS = new Set(['work', 'projects', 'about', 'now', 'contact'])
+
+// Matches a leading [[scroll:section]] marker. The model is instructed to emit
+// it only at the very start of a reply.
+const SCROLL_MARKER = /^\s*\[\[scroll:([a-z]+)\]\]/i
+
 function makeId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+}
+
+function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
 export function useAskAgent() {
@@ -75,6 +88,31 @@ export function useAskAgent() {
       const decoder = new TextDecoder()
       let buffer = ''
 
+      // The model may emit a leading [[scroll:id]] marker. It can arrive split
+      // across chunks, so we accumulate the raw reply and only strip + fire the
+      // scroll once the marker is fully resolved. `markerResolved` flips true
+      // after we've either consumed a marker or confirmed there isn't one, so
+      // we stop re-checking and pass text straight through afterward.
+      let rawReply = ''
+      let markerResolved = false
+
+      // True while the accumulated text is still a prefix of "[[scroll:id]]"
+      // that hasn't closed yet (e.g. "[[scro", "[[scroll:wor"). We hold back
+      // rendering until the marker either completes or is ruled out.
+      const PARTIAL_MARKER = /^\s*(\[(\[(s(c(r(o(l(l(:[a-z]*)?)?)?)?)?)?)?)?)?$/i
+      const couldBePartialMarker = (s: string) => PARTIAL_MARKER.test(s)
+
+      const pushClean = (visibleSoFar: string) => {
+        setMessages((prev) => {
+          const next = prev.slice()
+          const last = next[next.length - 1]
+          if (last && last.id === modelMsg.id) {
+            next[next.length - 1] = { ...last, content: visibleSoFar }
+          }
+          return next
+        })
+      }
+
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
@@ -101,20 +139,35 @@ export function useAskAgent() {
 
           if (parsed.error) throw new Error(parsed.error)
           if (parsed.done) continue
+          if (!parsed.text) continue
 
-          if (parsed.text) {
-            const chunk = parsed.text
-            setMessages((prev) => {
-              const next = prev.slice()
-              const last = next[next.length - 1]
-              if (last && last.id === modelMsg.id) {
-                next[next.length - 1] = { ...last, content: last.content + chunk }
-              }
-              return next
-            })
+          rawReply += parsed.text
+
+          if (!markerResolved) {
+            const match = rawReply.match(SCROLL_MARKER)
+            if (match) {
+              // Full marker found — fire the scroll (if valid) and strip it.
+              const id = match[1].toLowerCase()
+              if (SCROLLABLE_IDS.has(id)) scrollToSection(id)
+              rawReply = rawReply.slice(match[0].length).replace(/^\s+/, '')
+              markerResolved = true
+            } else if (couldBePartialMarker(rawReply)) {
+              // Still might be a marker mid-arrival — hold back, render nothing yet.
+              continue
+            } else {
+              // No marker present; nothing to strip from here on.
+              markerResolved = true
+            }
           }
+
+          pushClean(rawReply)
         }
       }
+
+      // Stream ended while still holding back a partial-looking marker that
+      // never completed (e.g. the whole reply was literally "[[scroll" garbage).
+      // Flush it so the visitor isn't left with an empty bubble.
+      if (!markerResolved) pushClean(rawReply)
     } catch (err) {
       if ((err as Error).name === 'AbortError') return
       const msg = err instanceof Error ? err.message : 'Something went wrong.'

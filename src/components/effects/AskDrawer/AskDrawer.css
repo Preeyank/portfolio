@@ -8,12 +8,15 @@
   justify-content: flex-end;
 }
 
+/* Lighter than a typical modal scrim so the section the agent scrolls to
+   stays visible behind the still-open drawer (Phase 5 "show, don't just tell").
+   Backdrop also doesn't capture scroll — clicking it still closes. */
 .ask__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(11, 12, 14, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(11, 12, 14, 0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   opacity: 0;
   animation: ask-fade-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }

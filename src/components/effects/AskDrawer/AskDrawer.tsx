@@ -83,6 +83,7 @@ export default function AskDrawer({
     const trimmed = text.trim()
     if (!trimmed || isStreaming) return
     setInput('')
+    if (inputRef.current) inputRef.current.style.height = 'auto'
     send(trimmed)
   }
 
@@ -162,13 +163,24 @@ export default function AskDrawer({
           )}
 
           {messages.map((m) => {
-            const isModelStreaming =
-              m.role === 'model' && isStreaming && m === messages[messages.length - 1]
+            const isLast = m === messages[messages.length - 1]
+            const isModelStreaming = m.role === 'model' && isStreaming && isLast
+            // Before the first token arrives the model bubble is empty — show a
+            // bouncing typing indicator instead of an empty bubble + caret.
+            const showTyping = isModelStreaming && m.content === ''
             return (
               <div key={m.id} className={`ask__msg ask__msg--${m.role}`}>
                 <div className="ask__bubble">
-                  {m.role === 'model' ? linkify(m.content) : m.content}
-                  {isModelStreaming && <span className="ask__caret" aria-hidden="true" />}
+                  {showTyping ? (
+                    <span className="ask__typing" aria-label="Thinking">
+                      <span /><span /><span />
+                    </span>
+                  ) : (
+                    <>
+                      {m.role === 'model' ? linkify(m.content) : m.content}
+                      {isModelStreaming && <span className="ask__caret" aria-hidden="true" />}
+                    </>
+                  )}
                 </div>
               </div>
             )
@@ -183,7 +195,13 @@ export default function AskDrawer({
             className="ask__input"
             placeholder="Ask me anything…"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value)
+              // Auto-grow: reset then match content, capped by max-height in CSS.
+              const el = e.target
+              el.style.height = 'auto'
+              el.style.height = `${el.scrollHeight}px`
+            }}
             onKeyDown={handleKeyDown}
             rows={1}
             disabled={isStreaming}
@@ -195,7 +213,9 @@ export default function AskDrawer({
             disabled={!input.trim() || isStreaming}
             aria-label="Send"
           >
-            ↵
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3.4 20.4 21 12 3.4 3.6 3 10l12 2-12 2 .4 6.4Z" fill="currentColor" />
+            </svg>
           </button>
         </form>
 

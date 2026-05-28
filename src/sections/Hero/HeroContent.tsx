@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react'
 import { MagneticButton } from '../../components/ui'
 import { useScrambleOnMount, useTerminalReveal, useCopyToClipboard } from '../../hooks'
-import { HERO_STACK, NAME_UPRIGHT, NAME_ITALIC, EMAIL } from '../../content'
+import { HERO_STACK, HERO_ASK_SUGGESTIONS, NAME_UPRIGHT, NAME_ITALIC, EMAIL } from '../../content'
+
+const CHIP_INTERVAL_MS = 4000
+
+function openAsk(question?: string) {
+  window.dispatchEvent(new CustomEvent('ask:open', { detail: { question } }))
+}
 
 interface HeroContentProps {
   visible: boolean
@@ -11,6 +18,18 @@ export default function HeroContent({ visible }: HeroContentProps) {
   const italicText  = useScrambleOnMount(NAME_ITALIC,  1000)
   const { revealed, cursorVisible, done } = useTerminalReveal(HERO_STACK.length, 1500)
   const { copied, copy } = useCopyToClipboard()
+
+  // Rotating suggestion chip: advance the index every 4s. CSS handles the
+  // cross-fade via a key change on the chip text. Pauses when the tab is hidden
+  // so we're not re-rendering offscreen.
+  const [chipIndex, setChipIndex] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => {
+      setChipIndex((i) => (i + 1) % HERO_ASK_SUGGESTIONS.length)
+    }, CHIP_INTERVAL_MS)
+    return () => clearInterval(id)
+  }, [])
+  const chip = HERO_ASK_SUGGESTIONS[chipIndex]
 
   return (
     <main className="hero__main">
@@ -89,6 +108,31 @@ export default function HeroContent({ visible }: HeroContentProps) {
               onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
             >Get in touch</a>
           </MagneticButton>
+        </div>
+      </div>
+
+      <div className="hero__fade-up" style={{ animationDelay: '1.45s', opacity: visible ? 1 : 0 }}>
+        <div className="hero__ask">
+          <button
+            type="button"
+            className="hero__ask-bar"
+            onClick={() => openAsk()}
+            aria-label="Ask me anything about my work"
+          >
+            <span className="hero__ask-prompt">&gt;</span>
+            <span className="hero__ask-placeholder">ASK ME ANYTHING ABOUT MY WORK</span>
+            <span className="hero__ask-caret" aria-hidden="true">▋</span>
+            <span className="hero__ask-enter" aria-hidden="true">⏎</span>
+          </button>
+
+          <button
+            key={chipIndex}
+            type="button"
+            className="hero__ask-chip"
+            onClick={() => openAsk(chip)}
+          >
+            {chip}
+          </button>
         </div>
       </div>
     </main>

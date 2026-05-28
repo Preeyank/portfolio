@@ -6,6 +6,20 @@ import dynamodbIcon from '../assets/dynamodb.svg'
 export const NAME_UPRIGHT = 'Pri'
 export const NAME_ITALIC = 'yank'
 
+// Example questions cycled under the Hero prompt bar. Clicking one opens the
+// Ask Preeyank drawer and auto-sends it. Keep these answerable from the
+// résumé-grounded system prompt — vague questions produce vague answers.
+export const HERO_ASK_SUGGESTIONS: string[] = [
+  'What did you build at GE Healthcare?',
+  'Tell me about your projects',
+  'What is your strongest tech stack?',
+  'How many years of experience do you have?',
+  'What kind of roles are you looking for?',
+  'Walk me through your most challenging project',
+  'What did you work on at Scale AI?',
+  'Are you open to relocating?',
+]
+
 export const HERO_STACK: StackItem[] = [
   { label: 'Python',     icon: pythonIcon,                               color: '55,118,171'  },
   { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript', color: '49,120,198'  },

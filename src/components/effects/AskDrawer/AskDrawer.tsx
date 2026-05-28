@@ -5,9 +5,18 @@ import './AskDrawer.css'
 interface AskDrawerProps {
   open: boolean
   onClose: () => void
+  // A question to auto-send when the drawer opens (e.g. a Hero suggestion chip).
+  initialQuestion?: string | null
+  // Called once the initialQuestion has been consumed, so the parent can clear it.
+  onConsumeQuestion?: () => void
 }
 
-export default function AskDrawer({ open, onClose }: AskDrawerProps) {
+export default function AskDrawer({
+  open,
+  onClose,
+  initialQuestion,
+  onConsumeQuestion,
+}: AskDrawerProps) {
   const { messages, isStreaming, error, send, reset } = useAskAgent()
   const [input, setInput] = useState('')
   const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -19,6 +28,15 @@ export default function AskDrawer({ open, onClose }: AskDrawerProps) {
     const t = setTimeout(() => inputRef.current?.focus(), 60)
     return () => clearTimeout(t)
   }, [open])
+
+  // Auto-send a question handed in via initialQuestion (Hero chip click).
+  // Runs once per opened question; onConsumeQuestion clears it in the parent
+  // so re-renders don't re-fire it.
+  useEffect(() => {
+    if (!open || !initialQuestion) return
+    send(initialQuestion)
+    onConsumeQuestion?.()
+  }, [open, initialQuestion, send, onConsumeQuestion])
 
   // Close on Escape.
   useEffect(() => {

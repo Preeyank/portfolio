@@ -16,7 +16,9 @@
   .exp-card__bullets,
   .exp-card__role,
   .proj-card__desc,
-  .contact__value {
+  .contact__value,
+  .ask__bubble,
+  .ask__input {
     -webkit-user-select: text;
     user-select: text;
   }

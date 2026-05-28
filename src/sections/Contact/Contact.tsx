@@ -1,10 +1,11 @@
-import { useInView } from '../../hooks'
+import { useInView, useCopyToClipboard } from '../../hooks'
 import { ScrambleText } from '../../components/ui'
 import { CONTACT_LINKS, RESUME_URL, RESUME_FILENAME } from '../../content'
 import './Contact.css'
 
 export default function Contact() {
   const { ref, inView } = useInView<HTMLElement>()
+  const { copied, copy } = useCopyToClipboard()
 
   return (
     <section id="contact" ref={ref} className={`contact animate-in ${inView ? 'animate-in--visible' : ''}`}>
@@ -18,12 +19,32 @@ export default function Contact() {
         </div>
 
         <div className="contact__links">
-          {CONTACT_LINKS.map(({ label, value, href }) => (
-            <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="contact__link">
-              <span className="contact__link-label">{label}</span>
-              <span className="contact__link-value">{value} ↗</span>
-            </a>
-          ))}
+          {CONTACT_LINKS.map(({ label, value, href }) => {
+            // Email copies to clipboard instead of opening a mailto: link,
+            // which doesn't reliably open a client on every system.
+            if (label === 'Email') {
+              return (
+                <button
+                  key={label}
+                  type="button"
+                  className="contact__link"
+                  onClick={() => copy(value)}
+                  title="Copy email"
+                >
+                  <span className="contact__link-label">{label}</span>
+                  <span className="contact__link-value">
+                    {copied ? 'copied ✓' : `${value} ⧉`}
+                  </span>
+                </button>
+              )
+            }
+            return (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="contact__link">
+                <span className="contact__link-label">{label}</span>
+                <span className="contact__link-value">{value} ↗</span>
+              </a>
+            )
+          })}
           <a href={RESUME_URL} download={RESUME_FILENAME} className="contact__link">
             <span className="contact__link-label">Resume</span>
             <span className="contact__link-value">download ↓</span>

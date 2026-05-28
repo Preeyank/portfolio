@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAskAgent } from '../../../hooks'
 import { ASK_STARTER_CHIPS } from '../../../content'
+import { linkify } from './linkify'
 import './AskDrawer.css'
 
 const EXIT_MS = 360
@@ -166,7 +167,7 @@ export default function AskDrawer({
             return (
               <div key={m.id} className={`ask__msg ask__msg--${m.role}`}>
                 <div className="ask__bubble">
-                  {m.content}
+                  {m.role === 'model' ? linkify(m.content) : m.content}
                   {isModelStreaming && <span className="ask__caret" aria-hidden="true" />}
                 </div>
               </div>

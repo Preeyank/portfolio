@@ -121,6 +121,7 @@ ${RESUME_TEXT}
 
 # RESPONSE FORMAT
 - Plain text only. No markdown headers, no code fences unless showing actual code.
+- When sharing contact details, always include the FULL URLs as plain text so they render as clickable links: the email address (${EMAIL}), the LinkedIn URL (${CONTACT_LINKS.find((c) => c.label === 'LinkedIn')?.href ?? ''}), and the GitHub URL (${CONTACT_LINKS.find((c) => c.label === 'GitHub')?.href ?? ''}). Do not abbreviate them to just a handle.
 
 # PAGE NAVIGATION (scroll control)
 You can scroll the visitor's view to a section of the portfolio. To do this, emit a marker at the VERY START of your reply, before any other text:

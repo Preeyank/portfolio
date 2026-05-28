@@ -81,7 +81,14 @@ export function useAskAgent() {
 
       if (!res.ok || !res.body) {
         const payload = await res.json().catch(() => ({}))
-        throw new Error(payload.error ?? `Request failed (${res.status})`)
+        if (payload.error) throw new Error(payload.error)
+        if (res.status === 429) {
+          throw new Error("You're sending messages too quickly — give it a moment and try again.")
+        }
+        if (res.status >= 500) {
+          throw new Error('The server hit a snag. Please try again in a bit.')
+        }
+        throw new Error(`Request failed (${res.status})`)
       }
 
       const reader = res.body.getReader()
@@ -170,7 +177,12 @@ export function useAskAgent() {
       if (!markerResolved) pushClean(rawReply)
     } catch (err) {
       if ((err as Error).name === 'AbortError') return
-      const msg = err instanceof Error ? err.message : 'Something went wrong.'
+      // A failed fetch (no network, server unreachable) rejects with a
+      // TypeError rather than a thrown Error with our message.
+      const isNetwork = err instanceof TypeError
+      const msg = isNetwork
+        ? "Couldn't reach the server — check your connection and try again."
+        : err instanceof Error ? err.message : 'Something went wrong.'
       setError(msg)
       // Drop the empty model placeholder if no tokens streamed in.
       setMessages((prev) => {

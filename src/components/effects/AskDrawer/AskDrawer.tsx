@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAskAgent } from '../../../hooks'
+import { ASK_STARTER_CHIPS } from '../../../content'
 import './AskDrawer.css'
+
+const EXIT_MS = 360
 
 interface AskDrawerProps {
   open: boolean
@@ -21,6 +24,26 @@ export default function AskDrawer({
   const [input, setInput] = useState('')
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Keep the panel mounted through its exit animation. `open` drives the
+  // intent; `rendered` drives whether the DOM exists. `closing` is derived —
+  // it's simply "still rendered but no longer open" — so no setState needed.
+  const [rendered, setRendered] = useState(open)
+  const closing = rendered && !open
+
+  // Opening is derivable during render (React's "adjust state while rendering"
+  // pattern) — no effect needed, avoids a cascading-render lint error.
+  if (open && !rendered) {
+    setRendered(true)
+  }
+
+  // Closing needs a timer: once `open` flips false, wait for the slide-out
+  // animation, then unmount. The exit class is driven by the derived `closing`.
+  useEffect(() => {
+    if (open || !rendered) return
+    const t = setTimeout(() => setRendered(false), EXIT_MS)
+    return () => clearTimeout(t)
+  }, [open, rendered])
 
   // Focus the input when the drawer opens.
   useEffect(() => {
@@ -55,34 +78,49 @@ export default function AskDrawer({
     el.scrollTop = el.scrollHeight
   }, [messages])
 
+  const submit = (text: string) => {
+    const trimmed = text.trim()
+    if (!trimmed || isStreaming) return
+    setInput('')
+    send(trimmed)
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const text = input.trim()
-    if (!text || isStreaming) return
-    setInput('')
-    send(text)
+    submit(input)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSubmit(e as unknown as React.FormEvent)
+      submit(input)
     }
   }
 
-  if (!open) return null
+  if (!rendered) return null
+
+  const hasMessages = messages.length > 0
 
   return (
-    <div className="ask" role="dialog" aria-modal="true" aria-label="Ask Preeyank">
+    <div
+      className={`ask ${closing ? 'ask--closing' : 'ask--open'}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Ask Preeyank"
+    >
       <div className="ask__backdrop" onClick={onClose} />
       <aside className="ask__panel">
         <header className="ask__header">
           <div className="ask__title">
-            <span className="ask__dot" aria-hidden="true" />
+            <span
+              className={`ask__dot ${isStreaming ? 'ask__dot--thinking' : ''}`}
+              aria-hidden="true"
+            />
             <span className="ask__title-text">Ask Preeyank</span>
+            <span className="ask__status">{isStreaming ? 'THINKING…' : 'READY'}</span>
           </div>
           <div className="ask__header-actions">
-            {messages.length > 0 && (
+            {hasMessages && (
               <button
                 type="button"
                 className="ask__reset"
@@ -104,9 +142,21 @@ export default function AskDrawer({
         </header>
 
         <div className="ask__messages" ref={scrollRef}>
-          {messages.length === 0 && !error && (
+          {!hasMessages && !error && (
             <div className="ask__empty">
-              Ask about my work, projects, or experience.
+              <p className="ask__empty-prompt">Ask me anything about my work.</p>
+              <div className="ask__chips">
+                {ASK_STARTER_CHIPS.map((q) => (
+                  <button
+                    key={q}
+                    type="button"
+                    className="ask__chip"
+                    onClick={() => submit(q)}
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -123,9 +173,7 @@ export default function AskDrawer({
             )
           })}
 
-          {error && (
-            <div className="ask__error">{error}</div>
-          )}
+          {error && <div className="ask__error">{error}</div>}
         </div>
 
         <form className="ask__form" onSubmit={handleSubmit}>
@@ -149,6 +197,10 @@ export default function AskDrawer({
             ↵
           </button>
         </form>
+
+        <footer className="ask__footer">
+          Powered by Gemini · Grounded in my real CV
+        </footer>
       </aside>
     </div>
   )

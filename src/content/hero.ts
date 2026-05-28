@@ -20,6 +20,9 @@ export const HERO_ASK_SUGGESTIONS: string[] = [
   'Are you open to relocating?',
 ]
 
+// First 4 are reused as the Ask drawer's empty-state starter chips.
+export const ASK_STARTER_CHIPS: string[] = HERO_ASK_SUGGESTIONS.slice(0, 4)
+
 export const HERO_STACK: StackItem[] = [
   { label: 'Python',     icon: pythonIcon,                               color: '55,118,171'  },
   { label: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript', color: '49,120,198'  },

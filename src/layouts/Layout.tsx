@@ -18,6 +18,8 @@ export default function Layout({ children, visible }: LayoutProps) {
   // Question carried in via the `ask:open` event (e.g. a Hero suggestion chip).
   // Consumed once by AskDrawer on open, then cleared.
   const [askQuestion, setAskQuestion] = useState<string | null>(null)
+  // The dock pill appears only after the Hero scrolls out of view.
+  const [dockVisible, setDockVisible] = useState(false)
 
   const openPalette = useCallback(() => setPaletteOpen(true), [])
   const closePalette = useCallback(() => setPaletteOpen(false), [])
@@ -55,6 +57,19 @@ export default function Layout({ children, visible }: LayoutProps) {
     return () => window.removeEventListener('ask:open', onOpen)
   }, [])
 
+  // Show the dock pill once the Hero is out of view. IntersectionObserver
+  // instead of a scroll handler so we're not running work on every frame.
+  useEffect(() => {
+    const hero = document.querySelector('.hero')
+    if (!hero) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setDockVisible(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(hero)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className={`layout ${visible ? 'layout--entered' : ''}`}>
       <CustomCursor />
@@ -69,6 +84,15 @@ export default function Layout({ children, visible }: LayoutProps) {
       <Nav onOpenPalette={openPalette} />
       <main className="layout__content">{children}</main>
       <Marquee />
+      <button
+        type="button"
+        className={`ask-dock ${dockVisible && !askOpen ? 'ask-dock--visible' : ''}`}
+        onClick={() => setAskOpen(true)}
+        aria-label="Ask Preeyank"
+      >
+        <span className="ask-dock__icon" aria-hidden="true">✦</span>
+        <span className="ask-dock__label">Ask</span>
+      </button>
     </div>
   )
 }

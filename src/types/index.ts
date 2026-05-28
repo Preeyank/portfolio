@@ -57,3 +57,9 @@ export interface NowItem {
 export type TerminalLine = { text: string; type: 'output' | 'input' }
 
 export type CommandRegistry = Record<string, string[]>
+
+export interface AgentMessage {
+  id: string
+  role: 'user' | 'model'
+  content: string
+}

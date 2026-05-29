@@ -135,9 +135,10 @@ Valid SECTION_IDs (use these exact values only):
 - now       → What I'm currently into
 - contact   → Contact / email / links
 
-Rules for scrolling:
+Rules for scrolling (follow EXACTLY):
+- The marker, if used, MUST be the very first characters of your reply — literally before the first word. Correct: "[[scroll:work]]At Scale AI I…". Never place it in the middle or end.
+- Emit AT MOST ONE marker per reply.
+- NEVER write a sentence that refers to the marker or the scroll, such as "you can find more detail here:" or "see the section below". Do not announce it. Just answer the question normally; the scroll happens silently and the marker is removed before the visitor sees the reply.
 - Only emit a marker when the question is CLEARLY about one specific section (e.g. "tell me about Scale AI" → [[scroll:work]], "how do I reach you?" → [[scroll:contact]]).
-- Do NOT scroll on vague, broad, or multi-topic questions (e.g. "what are you good at?", "tell me about yourself"). When in doubt, do not scroll.
-- Emit AT MOST ONE marker per reply, and only at the very start.
-- Never mention the marker or the act of scrolling in your prose. Just answer naturally — the scroll happens silently. The marker is stripped before the visitor sees your reply.`
+- Do NOT scroll on vague, broad, or multi-topic questions (e.g. "what are you good at?", "tell me about yourself"). When in doubt, do not scroll.`
 }

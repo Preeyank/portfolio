@@ -20,9 +20,16 @@ const ENDPOINT = '/api/ask'
 // and the actual DOM section ids).
 const SCROLLABLE_IDS = new Set(['work', 'projects', 'about', 'now', 'contact'])
 
-// Matches a leading [[scroll:section]] marker. The model is instructed to emit
-// it only at the very start of a reply.
-const SCROLL_MARKER = /^\s*\[\[scroll:([a-z]+)\]\]/i
+// Matches a complete [[scroll:section]] marker ANYWHERE in the text. The model
+// is told to emit it at the start, but a small model sometimes drops it mid-
+// reply, so we strip it wherever it lands rather than only at the start.
+const SCROLL_MARKER = /\[\[scroll:([a-z]+)\]\]/i
+const SCROLL_MARKER_GLOBAL = /\[\[scroll:[a-z]+\]\]/gi
+
+// Matches a partial marker still arriving at the END of the stream (a prefix of
+// "[[scroll:id]]" like "[[scro" or "[[scroll:wor"), so we can hold it back until
+// it either completes or the stream ends — never flashing a half marker.
+const TRAILING_PARTIAL = /\[(\[(s(c(r(o(l(l(:[a-z]*(\])?)?)?)?)?)?)?)?)?$/i
 
 function makeId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
@@ -95,19 +102,29 @@ export function useAskAgent() {
       const decoder = new TextDecoder()
       let buffer = ''
 
-      // The model may emit a leading [[scroll:id]] marker. It can arrive split
-      // across chunks, so we accumulate the raw reply and only strip + fire the
-      // scroll once the marker is fully resolved. `markerResolved` flips true
-      // after we've either consumed a marker or confirmed there isn't one, so
-      // we stop re-checking and pass text straight through afterward.
+      // Accumulate the raw reply untouched; the visible text is always derived
+      // from it. A [[scroll:id]] marker can appear anywhere and arrive split
+      // across chunks, so we (a) fire the scroll once when a complete marker
+      // first appears, and (b) strip every marker + hold back any trailing
+      // partial before rendering.
       let rawReply = ''
-      let markerResolved = false
+      let scrollFired = false
 
-      // True while the accumulated text is still a prefix of "[[scroll:id]]"
-      // that hasn't closed yet (e.g. "[[scro", "[[scroll:wor"). We hold back
-      // rendering until the marker either completes or is ruled out.
-      const PARTIAL_MARKER = /^\s*(\[(\[(s(c(r(o(l(l(:[a-z]*)?)?)?)?)?)?)?)?)?$/i
-      const couldBePartialMarker = (s: string) => PARTIAL_MARKER.test(s)
+      // Derive the visible text: strip complete markers (replacing with a space
+      // so adjacent words don't fuse), optionally hold back a trailing partial
+      // marker mid-arrival, then tidy whitespace so paragraph breaks survive.
+      const toDisplay = (raw: string, final: boolean): string => {
+        let out = raw.replace(SCROLL_MARKER_GLOBAL, ' ')
+        if (!final) {
+          const partial = out.match(TRAILING_PARTIAL)
+          if (partial) out = out.slice(0, out.length - partial[0].length)
+        }
+        return out
+          .replace(/[ \t]{2,}/g, ' ')
+          .replace(/ *\n/g, '\n')
+          .replace(/\n{3,}/g, '\n\n')
+          .trim()
+      }
 
       const pushClean = (visibleSoFar: string) => {
         setMessages((prev) => {
@@ -150,31 +167,25 @@ export function useAskAgent() {
 
           rawReply += parsed.text
 
-          if (!markerResolved) {
+          // Fire the scroll once, as soon as a complete marker appears anywhere.
+          if (!scrollFired) {
             const match = rawReply.match(SCROLL_MARKER)
             if (match) {
-              // Full marker found — fire the scroll (if valid) and strip it.
               const id = match[1].toLowerCase()
-              if (SCROLLABLE_IDS.has(id)) scrollToSection(id)
-              rawReply = rawReply.slice(match[0].length).replace(/^\s+/, '')
-              markerResolved = true
-            } else if (couldBePartialMarker(rawReply)) {
-              // Still might be a marker mid-arrival — hold back, render nothing yet.
-              continue
-            } else {
-              // No marker present; nothing to strip from here on.
-              markerResolved = true
+              if (SCROLLABLE_IDS.has(id)) {
+                scrollToSection(id)
+                scrollFired = true
+              }
             }
           }
 
-          pushClean(rawReply)
+          pushClean(toDisplay(rawReply, false))
         }
       }
 
-      // Stream ended while still holding back a partial-looking marker that
-      // never completed (e.g. the whole reply was literally "[[scroll" garbage).
-      // Flush it so the visitor isn't left with an empty bubble.
-      if (!markerResolved) pushClean(rawReply)
+      // Final render: stream is done, so don't hold back any trailing partial —
+      // whatever's left was never a real marker.
+      pushClean(toDisplay(rawReply, true))
     } catch (err) {
       if ((err as Error).name === 'AbortError') return
       // A failed fetch (no network, server unreachable) rejects with a

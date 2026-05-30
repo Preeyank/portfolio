@@ -2,9 +2,43 @@ import type { Job } from '../types'
 
 export const JOBS: Job[] = [
   {
+    company: 'Independent',
+    role: 'Full Stack & AI Developer',
+    period: 'Feb 2026 – Present',
+    location: 'Remote',
+    badge: null,
+    bullets: [
+      [
+        { kind: 'text', text: 'Building and launching ' },
+        { kind: 'link', text: 'API Sentinel', href: '#projects' },
+        { kind: 'text', text: ' — an AI-powered API monitoring SaaS with real-time alerting, an analytics dashboard, and anomaly detection.' },
+      ],
+      'Delivering a full-stack AI web app with an integrated chatbot using Next.js, Tailwind, and the OpenAI API for a client via Upwork.',
+      'Built this portfolio site with an embedded RAG-powered agent on Gemini 3.1 Flash-Lite — vector retrieval over my resume and projects, answering visitor questions in first person.',
+      'Designing scalable backend systems and REST APIs with Node.js, Supabase, and AWS for client projects spanning agentic workflows, LLM tool-use, and prompt-engineered automations.',
+    ],
+    stack: [
+      'TypeScript',
+      'React',
+      'Next.js',
+      'Node.js',
+      'Prisma ORM',
+      'PostgreSQL',
+      'Vercel / Serverless',
+      'LLM Integration (Claude API + Gemini)',
+      'RAG (Retrieval Augmented Generation)',
+      'Streaming LLM Responses',
+      'Prompt Engineering',
+      'AI Agents & Autonomous Systems',
+      'System Design',
+      'Multi-tenant Architecture',
+      'Reliability Engineering',
+    ],
+  },
+  {
     company: 'GE Healthcare',
     role: 'Software Engineer',
-    period: 'Mar 2024 – Present',
+    period: 'Mar 2024 – Feb 2026',
     location: 'Seattle, WA',
     badge: 'SWE II · Impact Award',
     bullets: [

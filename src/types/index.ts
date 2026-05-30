@@ -1,10 +1,16 @@
+export type BulletSegment =
+  | { kind: 'text'; text: string }
+  | { kind: 'link'; text: string; href: string }
+
+export type JobBullet = string | BulletSegment[]
+
 export interface Job {
   company: string
   role: string
   period: string
   location: string
   badge: string | null
-  bullets: string[]
+  bullets: JobBullet[]
   stack: string[]
 }
 

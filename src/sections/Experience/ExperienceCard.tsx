@@ -1,10 +1,37 @@
-import type { Job } from '../../types'
+import type { Job, JobBullet } from '../../types'
 import { useInView } from '../../hooks'
 
 interface ExperienceCardProps {
   job: Job
   index: number
   parentInView: boolean
+}
+
+function handleAnchorClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  if (!href.startsWith('#')) return
+  const id = href.slice(1)
+  const el = document.getElementById(id)
+  if (!el) return
+  e.preventDefault()
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+function renderBullet(b: JobBullet) {
+  if (typeof b === 'string') return b
+  return b.map((seg, i) =>
+    seg.kind === 'text' ? (
+      <span key={i}>{seg.text}</span>
+    ) : (
+      <a
+        key={i}
+        href={seg.href}
+        className="exp-card__bullet-link"
+        onClick={(e) => handleAnchorClick(e, seg.href)}
+      >
+        {seg.text}
+      </a>
+    ),
+  )
 }
 
 export default function ExperienceCard({ job, index, parentInView }: ExperienceCardProps) {
@@ -30,7 +57,7 @@ export default function ExperienceCard({ job, index, parentInView }: ExperienceC
 
         <ul className="exp-card__bullets">
           {job.bullets.map((b, i) => (
-            <li key={i} className="exp-card__bullet">{b}</li>
+            <li key={i} className="exp-card__bullet">{renderBullet(b)}</li>
           ))}
         </ul>
 

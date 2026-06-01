@@ -16,7 +16,7 @@ interface HeroContentProps {
 export default function HeroContent({ visible }: HeroContentProps) {
   const uprightText = useScrambleOnMount(NAME_UPRIGHT, 700)
   const italicText  = useScrambleOnMount(NAME_ITALIC,  1000)
-  const { revealed, cursorVisible, done } = useTerminalReveal(HERO_STACK.length, 1500)
+  const { revealed, cursorVisible, done } = useTerminalReveal(HERO_STACK.length, 900, 40)
   const { copied, copy } = useCopyToClipboard()
 
   // Rotating suggestion chip: advance the index every 4s. CSS handles the

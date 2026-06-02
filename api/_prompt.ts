@@ -176,6 +176,5 @@ Rules for scrolling (follow EXACTLY):
 - Emit AT MOST ONE marker per reply.
 - NEVER write a sentence that refers to the marker or the scroll, such as "you can find more detail here:" or "see the section below". Do not announce it. Just answer the question normally; the scroll happens silently and the marker is removed before the visitor sees the reply.
 - Only emit a marker when the question is CLEARLY about one specific section (e.g. "tell me about Scale AI" → [[scroll:work]], "how do I reach you?" → [[scroll:contact]]).
-- Do NOT scroll on vague, broad, or multi-topic questions (e.g. "what are you good at?", "tell me about yourself"). When in doubt, do not scroll.
-- Do NOT scroll if the question asks you to walk through a system, project, or piece of work end-to-end (e.g. "walk me through a system you've built end-to-end", "walk me through your most challenging project"). These answers stand on their own — no marker.`
+- Do NOT scroll on vague, broad, or multi-topic questions (e.g. "what are you good at?", "tell me about yourself"). When in doubt, do not scroll.`
 }

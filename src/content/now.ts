@@ -2,9 +2,9 @@ import type { NowItem } from '../types'
 
 export const NOW_ITEMS: NowItem[] = [
   { label: 'Building',       value: 'API Sentinel — AI-powered guardrails for production API endpoints.' },
-  { label: 'Learning',       value: 'Agentic system design with the Claude API and tool-use patterns.' },
+  { label: 'Learning',       value: 'Sharpening DSA fundamentals — patterns, recursion, graphs.' },
   { label: 'Reading',        value: "Man's Search for Meaning — Viktor E. Frankl." },
   { label: 'Thinking about', value: 'How AI agents can elevate observability beyond traditional metrics.' },
 ]
 
-export const NOW_UPDATED = 'June 11, 2026'
+export const NOW_UPDATED = 'June 12, 2026'

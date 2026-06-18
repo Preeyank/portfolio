@@ -7,4 +7,4 @@ export const NOW_ITEMS: NowItem[] = [
   { label: 'Thinking about', value: 'How AI agents can elevate observability beyond traditional metrics.' },
 ]
 
-export const NOW_UPDATED = 'June 17, 2026'
+export const NOW_UPDATED = 'June 18, 2026'
